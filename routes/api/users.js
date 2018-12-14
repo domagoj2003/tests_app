@@ -42,7 +42,8 @@ router.post("/register", (req, res) => {
           school: req.body.school,
           password: req.body.password,
           age: req.body.age,
-          bio: req.body.bio
+          bio: req.body.bio,
+          admin: req.body.admin
         });
         // password ecryption
         bcrypt.genSalt(10, (err, salt) => {

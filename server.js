@@ -6,6 +6,7 @@ const path = require("path");
 
 // DB models import
 const users = require("./routes/api/users");
+const tests = require("./routes/api/tests");
 
 const app = express();
 
@@ -30,6 +31,7 @@ require("./config/passport_jwt")(passport);
 
 // Routes set-up config
 app.use("/api/users", users);
+app.use("/api/tests", tests);
 
 app.get("/", (req, res) => {
   res.send("test_knowledge_app");
