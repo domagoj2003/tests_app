@@ -9,23 +9,13 @@ const UserSchema = new Schema({
     required: true
   },
   email: {
-    type: String,
-    required: true
+    type: String
   },
   password: {
     type: String,
     required: true
   },
   avatar: {
-    type: String
-  },
-  school: {
-    type: String
-  },
-  age: {
-    type: Number
-  },
-  bio: {
     type: String
   },
   date: {

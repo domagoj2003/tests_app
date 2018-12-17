@@ -15,9 +15,6 @@ module.exports = function validateRegistryInput(data) {
   if (Validator.isEmpty(data.name)) {
     errors.name = "Ime je obvezan podatak";
   }
-  if (!Validator.isEmail(data.email)) {
-    errors.email = "Navedi ispravnu e-mail adresu";
-  }
   if (Validator.isEmpty(data.password)) {
     errors.password = "Zaporka je obvezno polje";
   }

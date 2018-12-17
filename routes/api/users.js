@@ -22,7 +22,7 @@ router.post("/register", (req, res) => {
 
   // Check validation
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   } else {
     User.findOne({ name: req.body.name }).then(user => {
       if (user) {
@@ -38,11 +38,7 @@ router.post("/register", (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          avatar: req.body.avatar,
-          school: req.body.school,
-          password: req.body.password,
-          age: req.body.age,
-          bio: req.body.bio,
+          avatar,
           admin: req.body.admin
         });
         // password ecryption
