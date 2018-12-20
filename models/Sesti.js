@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const SixthgradeSchema = new Schema({
+const SestiSchema = new Schema({
   subject: {
     type: String,
     required: true
@@ -28,4 +28,4 @@ const SixthgradeSchema = new Schema({
   ]
 });
 
-module.exports = Sixthgrade = mongoose.model("sixthgrade", SixthgradeSchema);
+module.exports = Sesti = mongoose.model("sesti", SestiSchema);

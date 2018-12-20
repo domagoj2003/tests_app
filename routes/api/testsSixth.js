@@ -3,17 +3,30 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
 
-const Sixthgrade = require("../../models/Sixthgrade");
+const Sesti = require("../../models/Sesti");
 const User = require("../../models/Users");
 const validateQuestionsInput = require("../../validation/questions");
 
 // ŠESTI RAZRED
 
-// @route:  GET api/tests/sixth/:subject
+//checked
+// @route:  GET api/tests/sesti/
+// desc:    Get all subjects
+// access:  Public
+router.get("/", (req, res) => {
+  Sesti.find()
+    .then(subjects => {
+      const subjectList = subjects.map(item => item.subject);
+      res.json(subjectList);
+    })
+    .catch(err => res.status(404).json(err));
+});
+//checked
+// @route:  GET api/tests/sesti/:subject
 // desc:    Get all sections for specific subject
 // access:  Public
-router.get("/sixth/:subject", (req, res) => {
-  Sixthgrade.findOne({ subject: req.params.subject })
+router.get("/:subject", (req, res) => {
+  Sesti.findOne({ subject: req.params.subject })
     .then(subjects => {
       const sections = [
         ...new Set(subjects.questionset.map(item => item.section))
@@ -22,15 +35,15 @@ router.get("/sixth/:subject", (req, res) => {
     })
     .catch(err => res.json({ message: "Predmet ne postoji" }));
 });
-
-// @route:  GET api/tests/sixth/:subject/:section
+//checked
+// @route:  GET api/tests/sesti/:subject/:section
 // desc:    Get questions for  specific section of subject
 // access:  Private
 router.get(
-  "/sixth/:subject/:section",
+  "/:subject/:section",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Sixthgrade.findOne({ subject: req.params.subject }).then(subject => {
+    Sesti.findOne({ subject: req.params.subject }).then(subject => {
       const testQuestions = subject.questionset.filter(
         item => item.section === req.params.section
       );
@@ -38,36 +51,32 @@ router.get(
     });
   }
 );
-
-// @route:  POST api/tests/sixth
+//checked
+// @route:  POST api/tests/sesti
 // desc:    Create a subject for sixth grade
 // access:  Private /Admin
 
-router.post(
-  "/sixth",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Sixthgrade.findOne({ subject: req.body.subject }).then(sub => {
-      if (sub) {
-        res.json({ message: "Predmet već postoji u bazi podataka" });
-      } else {
-        const newSubject = new Sixthgrade({
-          subject: req.body.subject
-        });
-        newSubject
-          .save()
-          .then(subject => res.json(subject))
-          .catch(err => res.json(err));
-      }
-    });
-  }
-);
-
-// @route:  POST api/tests/sixth/:subject
+router.post("/", (req, res) => {
+  Sesti.findOne({ subject: req.body.subject }).then(subject => {
+    if (subject) {
+      res.json({ message: "Predmet je kreiran" });
+    } else {
+      const newSubject = new Sesti({
+        subject: req.body.subject
+      });
+      newSubject
+        .save()
+        .then(subject => res.json(subject))
+        .catch(err => res.json(err));
+    }
+  });
+});
+//checked
+// @route:  POST api/tests/sesti/:subject
 // desc:    Create Q&A for specific subject
 // access:  Private / Admin
 router.post(
-  "/sixth/:subject",
+  "/:subject",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateQuestionsInput(req.body);
@@ -79,7 +88,7 @@ router.post(
           errors.admin = "Nemaš administratorski pristup";
           res.status(400).json(errors);
         } else {
-          Sixthgrade.findOne({ subject: req.params.subject })
+          Sesti.findOne({ subject: req.params.subject })
             .then(subject => {
               const newQuestion = {
                 section: req.body.section,
@@ -99,19 +108,19 @@ router.post(
     }
   }
 );
-
-// @route:  DELETE api/tests/sixth/:subject/:question_id
+//checked
+// @route:  DELETE api/tests/sesti/:subject/:question_id
 // desc:    Delete a question
 // access:  Private / Admin
 router.delete(
-  "/sixth/:subject/:question_id",
+  "/:subject/:question_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findById(req.user.id).then(user => {
       if (!user.admin) {
         res.status(400).json({ message: "Nemaš administratorski pristup" });
       } else {
-        Sixthgrade.findOne({ subject: req.params.subject })
+        Sesti.findOne({ subject: req.params.subject })
           .then(subject => {
             const removeIndex = subject.questionset
               .map(item => item._id.toString())

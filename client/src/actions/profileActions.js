@@ -1,11 +1,11 @@
-import { GET_PROFILE, GET_ERRORS } from "./types";
+import { GET_PROFILE, GET_ERRORS, PROFILE_LOADING } from "./types";
 import axios from "axios";
 
 // Create Profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
     .post("/api/profile", profileData)
-    .then(res => history.push("/testovi"))
+    .then(res => history.push("/profil"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -14,8 +14,15 @@ export const createProfile = (profileData, history) => dispatch => {
     );
 };
 
+export const profileLoading = () => dispatch => {
+  dispatch({
+    type: PROFILE_LOADING
+  });
+};
+
 // Retrieve current profile
 export const getCurrentProfile = () => dispatch => {
+  dispatch(profileLoading());
   axios
     .get("/api/profile")
     .then(res =>

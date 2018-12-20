@@ -38,7 +38,7 @@ router.post("/register", (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          avatar,
+          avatar: avatar,
           admin: req.body.admin
         });
         // password ecryption

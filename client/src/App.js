@@ -15,6 +15,7 @@ import Register from "./components/auth/Register";
 import Examboard from "./components/examboard/Examboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import Board from "./components/profileboard/Board";
+import EditProfile from "./components/edit-profile/EditProfile";
 
 import "./App.css";
 
@@ -48,11 +49,23 @@ class App extends Component {
             <div className="container" id="app">
               <Route exact path="/registracija" component={Register} />
               <Route exact path="/prijava" component={Login} />
+              <Route exact path="/profil" component={Board} />
               <Switch>
                 <PrivateRoute exact path="/testovi" component={Examboard} />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/profil" component={Board} />
+                <PrivateRoute
+                  exact
+                  path="/kreiraj-profil"
+                  component={CreateProfile}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/uredi-profil"
+                  component={EditProfile}
+                />
               </Switch>
             </div>
             <Footer />

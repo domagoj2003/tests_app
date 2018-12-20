@@ -54,9 +54,10 @@ router.get(
       .then(profile => {
         if (!profile) {
           errors.noprofile = "Profil ne postoji";
-          return res.json(errors);
+          return res.status(404).json(errors);
+        } else {
+          res.json(profile);
         }
-        res.json(profile);
       })
       .catch(err => res.status(404).json(err));
   }
