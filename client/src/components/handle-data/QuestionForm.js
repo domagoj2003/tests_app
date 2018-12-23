@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextArea from "../common/TextArea";
 import InputField from "../common/InputField";
-import { createQuestion } from "../../actions/testActions";
+import { createQuestion } from "../../actions/testsActions";
 
 class QuestionForm extends Component {
   constructor(props) {

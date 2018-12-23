@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { deleteQuestion } from "../../actions/testActions";
+import { deleteQuestion } from "../../actions/testsActions";
 import Button from "../common/Button";
 import CollapseField from "../common/CollapseField";
 

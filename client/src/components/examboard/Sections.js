@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "../common/Button";
-import { selectSection, getQuestions } from "../../actions/testActions";
+import { selectSection } from "../../actions/testsActions";
+import { getTestQuestions } from "../../actions/testActions";
 
 class Sections extends Component {
   onClick = e => {
     const { selectedGrade, selectedSubject } = this.props.selected;
     const section = e.target.id;
     this.props.selectSection(section);
-    this.props.getQuestions(
+    this.props.getTestQuestions(
       selectedGrade,
       selectedSubject,
       section,
@@ -46,7 +47,7 @@ Sections.propTypes = {
   tests: PropTypes.object.isRequired,
   selected: PropTypes.object.isRequired,
   selectSection: PropTypes.func.isRequired,
-  getQuestions: PropTypes.func.isRequired
+  getTestQuestions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -56,5 +57,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { selectSection, getQuestions }
+  { selectSection, getTestQuestions }
 )(withRouter(Sections));

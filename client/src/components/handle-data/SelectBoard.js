@@ -6,7 +6,7 @@ import {
   getSubjects,
   selectGrade,
   clearSelections
-} from "../../actions/testActions";
+} from "../../actions/testsActions";
 import Grades from "../common/Grades";
 import Subjects from "../common/Subjects";
 import Sections from "./Sections";

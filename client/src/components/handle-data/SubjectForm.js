@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createSubject } from "../../actions/testActions";
+import { createSubject } from "../../actions/testsActions";
 import InputField from "../common/InputField";
 
 class SubjectForm extends Component {

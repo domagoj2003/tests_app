@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import { selectSubject, getSections } from "../../actions/testActions";
+import { selectSubject, getSections } from "../../actions/testsActions";
 
 class Subjects extends Component {
   onClick = e => {

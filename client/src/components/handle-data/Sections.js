@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "../common/Button";
-import { selectSection, getQuestions } from "../../actions/testActions";
+import { selectSection, getQuestions } from "../../actions/testsActions";
 
 class Sections extends Component {
   onClick = e => {

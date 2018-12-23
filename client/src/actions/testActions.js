@@ -1,154 +1,88 @@
-import axios from "axios";
 import {
-  GET_SUBJECTS,
-  GET_SUBJECT,
-  GET_SECTIONS,
-  GET_QUESTIONS,
-  SELECTED_GRADE,
-  SELECTED_SUBJECT,
-  SELECTED_SECTION,
+  GET_TEST_QUESTIONS,
   TEST_LOADING,
-  CLEAR_SELECTION,
-  DELETE_QUESTION,
-  GET_ERRORS
+  GET_CURRENT_QUESTION,
+  REMOVE_CURRENT_QUESTION,
+  ANSWER_CORRECT,
+  ANSWER_WRONG,
+  HELP_GET,
+  ADD_POINTS,
+  CLEAR_FIELDS,
+  ACTION_STATUS
 } from "./types";
+import axios from "axios";
 
-export const createQuestion = (grade, subject, questionData) => dispatch => {
-  dispatch(testLoading());
-  axios
-    .post(`/api/tests/${grade}/${subject}`, questionData)
-    .then(res =>
-      dispatch({
-        type: GET_QUESTIONS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
-};
-
-export const createSubject = (grade, subjectData) => dispatch => {
-  dispatch(testLoading());
-  axios
-    .post(`/api/tests/${grade}`, subjectData)
-    .then(res =>
-      dispatch({
-        type: GET_SUBJECT,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_SUBJECT,
-        payload: []
-      })
-    );
-};
-
-export const getSubjects = grade => dispatch => {
-  dispatch(testLoading());
-  axios
-    .get(`/api/tests/${grade}`)
-    .then(res =>
-      dispatch({
-        type: GET_SUBJECTS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_SUBJECTS,
-        payload: []
-      })
-    );
-};
-
-export const getSections = (grade, subject) => dispatch => {
-  dispatch(testLoading());
-  axios
-    .get(`/api/tests/${grade}/${subject}`)
-    .then(res =>
-      dispatch({
-        type: GET_SECTIONS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_SECTIONS,
-        payload: []
-      })
-    );
-};
-
-export const getQuestions = (grade, subject, section, history) => dispatch => {
+export const getTestQuestions = (
+  grade,
+  subject,
+  section,
+  history
+) => dispatch => {
   dispatch(testLoading());
   axios
     .get(`/api/tests/${grade}/${subject}/${section}`)
     .then(res =>
       dispatch({
-        type: GET_QUESTIONS,
+        type: GET_TEST_QUESTIONS,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_QUESTIONS,
+        type: GET_TEST_QUESTIONS,
         payload: []
       })
     );
-  if (history) {
-    history.push("/test");
+  history.push("/test");
+};
+
+export const newQuestion = questions => dispatch => {
+  const currentIndex = Math.floor(Math.random() * questions.length);
+  const currentQuestion = questions[currentIndex];
+  const id = currentQuestion._id;
+  dispatch({
+    type: GET_CURRENT_QUESTION,
+    payload: currentQuestion
+  });
+  dispatch({
+    type: REMOVE_CURRENT_QUESTION,
+    payload: id
+  });
+};
+
+export const answerStatus = isCorrect => dispatch => {
+  if (isCorrect) {
+    dispatch({
+      type: ANSWER_CORRECT
+    });
+  } else {
+    dispatch({
+      type: ANSWER_WRONG
+    });
   }
 };
 
-export const selectGrade = grade => dispatch => {
+export const helpStatus = () => dispatch => {
   dispatch({
-    type: SELECTED_GRADE,
-    payload: grade
+    type: HELP_GET
   });
 };
 
-export const selectSubject = subject => dispatch => {
+export const addPoints = points => dispatch => {
   dispatch({
-    type: SELECTED_SUBJECT,
-    payload: subject
+    type: ADD_POINTS,
+    payload: points
   });
 };
-
-export const selectSection = section => dispatch => {
+export const actionStatus = () => dispatch => {
   dispatch({
-    type: SELECTED_SECTION,
-    payload: section
+    type: ACTION_STATUS
   });
 };
-
-export const clearSelections = () => dispatch => {
+export const clearFields = () => dispatch => {
   dispatch({
-    type: CLEAR_SELECTION
+    type: CLEAR_FIELDS
   });
-};
-
-export const deleteQuestion = (grade, subject, questionId) => dispatch => {
-  dispatch(testLoading());
-  axios
-    .delete(`/api/tests/${grade}/${subject}/${questionId}`)
-    .then(res =>
-      dispatch({
-        type: DELETE_QUESTION,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
 };
 
 export const testLoading = () => dispatch => {

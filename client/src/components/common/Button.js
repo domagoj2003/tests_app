@@ -6,6 +6,7 @@ const Button = ({
   data_target,
   aria_expanded,
   aria_controls,
+  disabled,
   name,
   type,
   id,
@@ -15,6 +16,7 @@ const Button = ({
     id={id}
     type={type}
     name={name}
+    disabled={disabled}
     onClick={onClick}
     data-toggle={data_toggle}
     data-target={data_target}
