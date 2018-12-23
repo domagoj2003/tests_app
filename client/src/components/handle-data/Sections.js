@@ -10,12 +10,7 @@ class Sections extends Component {
     const { selectedGrade, selectedSubject } = this.props.selected;
     const section = e.target.id;
     this.props.selectSection(section);
-    this.props.getQuestions(
-      selectedGrade,
-      selectedSubject,
-      section,
-      this.props.history
-    );
+    this.props.getQuestions(selectedGrade, selectedSubject, section);
   };
 
   render() {

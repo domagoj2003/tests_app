@@ -1,7 +1,8 @@
 import {
   SELECTED_GRADE,
   SELECTED_SUBJECT,
-  SELECTED_SECTION
+  SELECTED_SECTION,
+  CLEAR_SELECTION
 } from "../actions/types";
 
 const initialState = {
@@ -27,7 +28,8 @@ export default function(state = initialState, action) {
         ...state,
         selectedSection: action.payload
       };
-
+    case CLEAR_SELECTION:
+      return initialState;
     default:
       return state;
   }

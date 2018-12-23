@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Button from "../common/Button";
+import Button from "./Button";
 import { selectSubject, getSections } from "../../actions/testActions";
 
 class Subjects extends Component {
@@ -21,7 +21,16 @@ class Subjects extends Component {
       content = null;
     } else {
       content = subjects.map((item, index) => (
-        <Button key={index} id={item} name={item} onClick={this.onClick} />
+        <div key={index}>
+          <p>
+            <Button
+              id={item}
+              name={item}
+              onClick={this.onClick}
+              className="btn btn-link"
+            />
+          </p>
+        </div>
       ));
     }
     return <div className="col-md-4 text-center">{content}</div>;

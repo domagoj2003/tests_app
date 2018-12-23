@@ -16,6 +16,11 @@ import Examboard from "./components/examboard/Examboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import Board from "./components/profileboard/Board";
 import EditProfile from "./components/edit-profile/EditProfile";
+import SelectBoard from "./components/handle-data/SelectBoard";
+import ActionBoard from "./components/handle-data/ActionBoard";
+import QuestionForm from "./components/handle-data/QuestionForm";
+import SubjectForm from "./components/handle-data/SubjectForm";
+import TestBoard from "./components/test-board/TestBoard";
 
 import "./App.css";
 
@@ -34,7 +39,7 @@ if (localStorage.jwtToken) {
     // Logout uset
     store.dispatch(logoutUser());
     // Redirect to Login page
-    window.location.href = "/login";
+    window.location.href = "/prijava";
   }
 }
 
@@ -66,6 +71,33 @@ class App extends Component {
                   path="/uredi-profil"
                   component={EditProfile}
                 />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/ploca" component={SelectBoard} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/ploca-upravljanje"
+                  component={ActionBoard}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/novo-pitanje"
+                  component={QuestionForm}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/novi-predmet"
+                  component={SubjectForm}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/test" component={TestBoard} />
               </Switch>
             </div>
             <Footer />

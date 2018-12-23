@@ -56,21 +56,25 @@ router.get(
 // desc:    Create a subject for sixth grade
 // access:  Private /Admin
 
-router.post("/", (req, res) => {
-  Sesti.findOne({ subject: req.body.subject }).then(subject => {
-    if (subject) {
-      res.json({ message: "Predmet je kreiran" });
-    } else {
-      const newSubject = new Sesti({
-        subject: req.body.subject
-      });
-      newSubject
-        .save()
-        .then(subject => res.json(subject))
-        .catch(err => res.json(err));
-    }
-  });
-});
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Sesti.findOne({ subject: req.body.subject }).then(subject => {
+      if (subject) {
+        res.json({ message: "Predmet je kreiran" });
+      } else {
+        const newSubject = new Sesti({
+          subject: req.body.subject
+        });
+        newSubject
+          .save()
+          .then(subject => res.json(subject.subject))
+          .catch(err => res.json(err));
+      }
+    });
+  }
+);
 //checked
 // @route:  POST api/tests/sesti/:subject
 // desc:    Create Q&A for specific subject
@@ -94,12 +98,13 @@ router.post(
                 section: req.body.section,
                 question: req.body.question,
                 correctanswer: req.body.correctanswer,
-                help: req.body.help
+                help: req.body.help,
+                info: req.body.info
               };
               subject.questionset.unshift(newQuestion);
               subject
                 .save()
-                .then(subject => res.json(subject))
+                .then(subject => res.json(subject.questionset))
                 .catch(err => res.json(err));
             })
             .catch(err => res.json({ message: "Predmet ne postoji" }));
@@ -126,7 +131,7 @@ router.delete(
               .map(item => item._id.toString())
               .indexOf(req.params.question_id);
             subject.questionset.splice(removeIndex, 1);
-            subject.save().then(subject => res.json(subject));
+            subject.save().then(subject => res.json(subject.questionset));
           })
           .catch(err => res.json({ message: "Predmet nije pronađen" }));
       }

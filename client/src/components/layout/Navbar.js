@@ -69,6 +69,13 @@ class Navbar extends Component {
                   Testovi
                 </Link>
               </li>
+              {user.admin && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/ploca">
+                    Upravljačka Ploča
+                  </Link>
+                </li>
+              )}
             </ul>
             {isAuthenticated ? authLinks : guestLinks}
           </div>

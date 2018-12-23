@@ -1,17 +1,29 @@
 import React from "react";
 
-const Button = ({ name, id, onClick }) => {
-  return (
-    <p>
-      <button
-        id={id}
-        onClick={onClick}
-        className="btn btn-info text-center display-4"
-      >
-        {name}
-      </button>
-    </p>
-  );
-};
+const Button = ({
+  className,
+  data_toggle,
+  data_target,
+  aria_expanded,
+  aria_controls,
+  name,
+  type,
+  id,
+  onClick
+}) => (
+  <button
+    id={id}
+    type={type}
+    name={name}
+    onClick={onClick}
+    data-toggle={data_toggle}
+    data-target={data_target}
+    aria-expanded={aria_expanded}
+    aria-controls={aria_controls}
+    className={className}
+  >
+    {name}
+  </button>
+);
 
 export default Button;

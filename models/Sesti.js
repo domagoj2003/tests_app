@@ -23,6 +23,9 @@ const SestiSchema = new Schema({
       help: {
         type: String,
         required: true
+      },
+      info: {
+        type: String
       }
     }
   ]

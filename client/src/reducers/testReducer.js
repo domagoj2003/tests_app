@@ -2,7 +2,10 @@ import {
   GET_SUBJECTS,
   GET_QUESTIONS,
   GET_SECTIONS,
-  TEST_LOADING
+  TEST_LOADING,
+  CLEAR_SELECTION,
+  DELETE_QUESTION,
+  GET_SUBJECT
 } from "../actions/types";
 
 const initialState = {
@@ -20,6 +23,12 @@ export default function(state = initialState, action) {
         subjects: action.payload,
         loading: false
       };
+    case GET_SUBJECT:
+      return {
+        ...state,
+        subjects: [action.payload, ...state.subjects],
+        loading: false
+      };
     case GET_SECTIONS:
       return {
         ...state,
@@ -27,6 +36,15 @@ export default function(state = initialState, action) {
         loading: false
       };
     case GET_QUESTIONS:
+      return {
+        ...state,
+        questions: action.payload,
+        loading: false
+      };
+    case CLEAR_SELECTION:
+      return initialState;
+
+    case DELETE_QUESTION:
       return {
         ...state,
         questions: action.payload,

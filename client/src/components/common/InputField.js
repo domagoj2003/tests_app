@@ -7,6 +7,7 @@ const InputField = ({
   value,
   errors,
   info,
+  disabled,
   onChange,
   type,
   placeholder
@@ -18,6 +19,7 @@ const InputField = ({
         placeholder={placeholder}
         name={name}
         value={value}
+        disabled={disabled}
         info={info}
         errors={errors}
         onChange={onChange}
@@ -36,9 +38,10 @@ InputField.propTypes = {
   value: PropTypes.string.isRequired,
   errors: PropTypes.string,
   info: PropTypes.string,
+  disabled: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired
+  placeholder: PropTypes.string
 };
 
 InputField.defaultProps = {
