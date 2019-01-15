@@ -23,6 +23,10 @@ const ProfileSchema = new Schema({
   },
   results: [
     {
+      grade: {
+        type: String,
+        required: true
+      },
       subject: {
         type: String,
         required: true

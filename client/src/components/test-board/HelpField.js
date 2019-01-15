@@ -9,10 +9,8 @@ class HelpField extends Component {
       content = null;
     } else {
       content = (
-        <div className="row" style={{ marginTop: `1.5em` }}>
-          <div className="col-md-8 offset-md-2">
-            <p className="lead text-info">{currentQuestion.help}</p>
-          </div>
+        <div style={{ marginTop: `1.5em` }}>
+          <p className="lead text-info">{currentQuestion.help}</p>
         </div>
       );
     }

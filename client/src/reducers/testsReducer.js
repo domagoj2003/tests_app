@@ -2,7 +2,7 @@ import {
   GET_SUBJECTS,
   GET_QUESTIONS,
   GET_SECTIONS,
-  TEST_LOADING,
+  LOADING_TESTS,
   CLEAR_SELECTION,
   DELETE_QUESTION,
   GET_SUBJECT
@@ -50,7 +50,7 @@ export default function(state = initialState, action) {
         questions: action.payload,
         loading: false
       };
-    case TEST_LOADING:
+    case LOADING_TESTS:
       return {
         ...state,
         loading: true

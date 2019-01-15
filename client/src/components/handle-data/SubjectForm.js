@@ -53,7 +53,7 @@ class SubjectForm extends Component {
                 value={selectedGrade}
                 errors={errors.section}
                 onChange={this.onChange}
-                disabled="disabled"
+                disabled={true}
                 info="Razred za koji kreiraš predmet"
               />
               <InputField

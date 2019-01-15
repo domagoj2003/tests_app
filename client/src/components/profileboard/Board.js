@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { getCurrentProfile } from "../../actions/profileActions";
 import Header from "./Header";
 import Bio from "./Bio";
+import { resultsDisplay } from "../../validation/display-data";
 import Results from "./Results";
 
 class Board extends Component {
@@ -27,7 +28,10 @@ class Board extends Component {
           <div className="container">
             <Header profile={profile} />
             <Bio profile={profile} />
-            <Results profile={profile} />
+            <Results
+              results={resultsDisplay(profile.results)}
+              user={profile.user}
+            />
           </div>
         );
       } else {

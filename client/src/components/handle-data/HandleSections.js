@@ -1,62 +1,57 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import ItemCard from "../common/ItemCard";
+import Spinner from "../common/Spinner";
 import { dataDisplay } from "../../validation/display-data";
 import { getSections, selectSection } from "../../actions/testsActions";
-import { getTestQuestions } from "../../actions/testActions";
-import ItemCard from "../common/ItemCard";
 
-class Sections extends Component {
+class HandleSections extends Component {
   componentDidMount() {
     const { selectedGrade, selectedSubject } = this.props.selected;
     this.props.getSections(selectedGrade, selectedSubject);
   }
 
   onClick = e => {
-    const { selectedGrade, selectedSubject } = this.props.selected;
     const section = e.target.id;
     this.props.selectSection(section);
-    this.props.getTestQuestions(
-      selectedGrade,
-      selectedSubject,
-      section,
-      this.props.history
-    );
   };
 
   render() {
     const { sections, loading } = this.props.tests;
     let content;
     if (loading || sections === null) {
-      content = <div>Loading...</div>;
+      content = <Spinner />;
     } else if (sections.length < 1) {
-      content = <div>Za odabrani predmet nema ispita</div>;
+      content = (
+        <div>
+          <p>Za odabrani predmet nema testova</p>
+          <p>
+            <Link to="/novo-pitanje" className="btn btn-light offset-3">
+              Kreiraj pitanje
+            </Link>
+          </p>
+        </div>
+      );
     } else {
       content = sections.map((section, index) => (
         <ItemCard
           key={index}
-          item={dataDisplay(section)}
           id={section}
+          item={dataDisplay(section)}
           onClick={this.onClick}
-          to={`/test`}
+          to={"/ploca-upravljanje"}
           style={{ fontSize: `2rem`, textAlign: `center` }}
         />
       ));
     }
     return (
-      <div>
-        <p>
-          <Link to="/predmeti" className="btn btn-light">
-            Povratak
-          </Link>
-        </p>
-        <div className="row justify-content-md-center">
-          <div className="col-md-12 text-center display-4 mb-5 mt-5">
-            Odaberi cjelinu:
-          </div>
-          {content}
+      <div className="row justify-content-md-center">
+        <div className="col-md-12 text-center display-4 mb-5 mt-5">
+          Odaberi cjelinu:
         </div>
+        {content}
       </div>
     );
   }
@@ -69,5 +64,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSections, selectSection, getTestQuestions }
-)(withRouter(Sections));
+  { getSections, selectSection }
+)(HandleSections);

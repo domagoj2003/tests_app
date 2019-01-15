@@ -8,10 +8,10 @@ const isCorrect = (answer, userInput) => {
     .trim()
     .replace(/\s/g, "")
     .toLowerCase();
-  const removeIndex = userAnswer.length - 2;
-  userAnswer = userAnswer.substring(0, removeIndex);
+  const removeIndex = correctAnswer.length - 3;
+  correctAnswer = correctAnswer.substring(0, removeIndex);
 
-  return correctAnswer.includes(userAnswer);
+  return userAnswer.includes(correctAnswer);
 };
 
 export default isCorrect;

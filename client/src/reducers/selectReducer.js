@@ -2,13 +2,15 @@ import {
   SELECTED_GRADE,
   SELECTED_SUBJECT,
   SELECTED_SECTION,
-  CLEAR_SELECTION
+  CLEAR_SELECTION,
+  GET_QUESTION
 } from "../actions/types";
 
 const initialState = {
   selectedGrade: null,
   selectedSubject: null,
-  selectedSection: null
+  selectedSection: null,
+  selectedQuestion: null
 };
 
 export default function(state = initialState, action) {
@@ -27,6 +29,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedSection: action.payload
+      };
+    case GET_QUESTION:
+      return {
+        ...state,
+        selectedQuestion: action.payload
       };
     case CLEAR_SELECTION:
       return initialState;

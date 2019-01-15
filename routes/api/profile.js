@@ -7,7 +7,9 @@ const validateProfileInput = require("../../validation/profile");
 const User = require("../../models/Users");
 const Profile = require("../../models/Profile");
 
-// Create/Edit User Profile
+// @route:  POST api/profile/
+// desc:    Create/Edit User Profile
+// access:  PRIVATE
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -43,7 +45,9 @@ router.post(
   }
 );
 
-// Retrieve current profile
+// @route:  GET api/profile/
+// desc:    retrieve current profile
+// access:  PRIVATE
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
@@ -60,6 +64,29 @@ router.get(
         }
       })
       .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route:  POST api/profile/result
+// desc:    Save test results in profile array
+// access:  PRIVATE
+router.post(
+  "/result",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const newResult = {
+          grade: req.body.grade,
+          subject: req.body.subject,
+          section: req.body.section,
+          maxpoints: req.body.maxPoints,
+          points: req.body.points
+        };
+        profile.results.unshift(newResult);
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.json(err));
   }
 );
 

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import { selectSubject, getSections } from "../../actions/testsActions";
-
+import { dataDisplay } from "../../validation/display-data";
 class Subjects extends Component {
   onClick = e => {
     const { selectedGrade } = this.props.selected;
@@ -25,9 +25,9 @@ class Subjects extends Component {
           <p>
             <Button
               id={item}
-              name={item}
+              name={dataDisplay(item)}
               onClick={this.onClick}
-              className="btn btn-link"
+              className="btn btn-light btn-block"
             />
           </p>
         </div>

@@ -105,7 +105,7 @@ router.post(
               subject
                 .save()
                 .then(subject => res.json(subject.questionset))
-                .catch(err => res.json(err));
+                .catch(err => res.json(errors));
             })
             .catch(err => res.json({ message: "Predmet ne postoji" }));
         }
@@ -113,6 +113,45 @@ router.post(
     }
   }
 );
+
+// @route:  POST api/tests/sesti/:subject/:question_id
+// desc:    edit question
+// access:  Private / Admin
+router.post(
+  "/:subject/:question_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateQuestionsInput(req.body);
+    User.findById(req.user.id).then(user => {
+      if (!user.admin) {
+        errors.admin = "Nemaš administratorski pristup";
+        res.status(400).json(errors);
+      } else {
+        Sesti.findOne({ subject: req.params.subject })
+          .then(subject => {
+            const questionEdit = subject.questionset.find(
+              item => item._id.toString() === req.params.question_id
+            );
+            if (!questionEdit) {
+              errors.noquestion = "Ne postoji traženo pitanje";
+              res.status(400).json(errors);
+            } else {
+              questionEdit.question = req.body.question;
+              questionEdit.correctanswer = req.body.correctanswer;
+              questionEdit.help = req.body.help;
+              questionEdit.info = req.body.info;
+              subject
+                .save()
+                .then(subject => res.json(subject.questionset))
+                .catch(err => res.json(errors));
+            }
+          })
+          .catch(err => res.json({ message: "Predmet ne postoji" }));
+      }
+    });
+  }
+);
+
 //checked
 // @route:  DELETE api/tests/sesti/:subject/:question_id
 // desc:    Delete a question

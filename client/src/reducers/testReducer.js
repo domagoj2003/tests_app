@@ -8,18 +8,24 @@ import {
   HELP_GET,
   ADD_POINTS,
   CLEAR_FIELDS,
-  ACTION_STATUS
+  ACTION_STATUS,
+  COUNT_QUESTION,
+  TOTAL_QUESTIONS,
+  SET_TIMER,
+  RESET_TEST
 } from "../actions/types";
 
 const initialState = {
   questions: null,
   currentQuestion: null,
-  actionStatus: false,
+  actionStatus: undefined,
   maxPoints: 100,
   points: 0,
-  time: 20,
+  timer: 15,
   answerStatus: null,
   helpStatus: null,
+  questionsTotal: null,
+  questionCounter: 0,
   loading: false
 };
 
@@ -67,7 +73,31 @@ export default function(state = initialState, action) {
         ...state,
         actionStatus: !state.actionStatus
       };
+    case COUNT_QUESTION:
+      return {
+        ...state,
+        questionCounter: state.questionCounter + action.payload
+      };
+    case TOTAL_QUESTIONS:
+      return {
+        ...state,
+        questionsTotal: action.payload
+      };
+    case SET_TIMER:
+      return {
+        ...state,
+        timer: state.timer - action.payload
+      };
+
     case CLEAR_FIELDS:
+      return {
+        ...state,
+        timer: initialState.timer,
+        answerStatus: initialState.answerStatus,
+        helpStatus: initialState.helpStatus,
+        actionStatus: initialState.actionStatus
+      };
+    case RESET_TEST:
       return initialState;
     case REMOVE_CURRENT_QUESTION:
       return {

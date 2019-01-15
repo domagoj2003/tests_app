@@ -1,43 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Points from "./Points";
 import Timer from "./Timer";
 import QuestionField from "./QuestionField";
 import HelpButton from "./HelpButton";
 import CancelButton from "./CancelButton";
-import Button from "../common/Button";
-import {
-  newQuestion,
-  clearFields,
-  actionStatus
-} from "../../actions/testActions";
-import HelpField from "./HelpField";
+import InitialInfo from "./InitialInfo";
+
+import { resetTest, actionStatus } from "../../actions/testActions";
 
 class TestBoard extends Component {
   componentWillMount() {
     if (this.props.tests.sections === null) {
-      this.props.history.push("/testovi");
+      this.props.history.push("/razred");
     }
   }
   componentWillUnmount() {
-    this.props.clearFields();
+    this.props.resetTest();
   }
-  onClick = e => {
-    const questions = this.props.test.questions;
-    this.props.newQuestion(questions);
-    this.props.actionStatus();
-  };
+
   render() {
     const { actionStatus } = this.props.test;
     let content;
-    if (!actionStatus) {
-      content = (
-        <Button
-          name="Počni test"
-          onClick={this.onClick}
-          className="btn btn-info"
-        />
-      );
+    if (actionStatus === undefined) {
+      content = <InitialInfo />;
     } else {
       content = (
         <div className="row">
@@ -62,10 +49,7 @@ class TestBoard extends Component {
 
     return (
       <div className="test">
-        <div className="card card-body bg-light mb-3">
-          {content}
-          <HelpField />
-        </div>
+        <div className="card card-body bg-light mb-3">{content}</div>
       </div>
     );
   }
@@ -78,5 +62,8 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { newQuestion, clearFields, actionStatus }
+  {
+    resetTest,
+    actionStatus
+  }
 )(TestBoard);

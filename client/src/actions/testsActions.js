@@ -7,13 +7,19 @@ import {
   SELECTED_GRADE,
   SELECTED_SUBJECT,
   SELECTED_SECTION,
-  TEST_LOADING,
+  LOADING_TESTS,
   CLEAR_SELECTION,
   DELETE_QUESTION,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_QUESTION
 } from "./types";
 
-export const createQuestion = (grade, subject, questionData) => dispatch => {
+export const createQuestion = (
+  grade,
+  subject,
+  questionData,
+  history
+) => dispatch => {
   dispatch(testLoading());
   axios
     .post(`/api/tests/${grade}/${subject}`, questionData)
@@ -29,6 +35,7 @@ export const createQuestion = (grade, subject, questionData) => dispatch => {
         payload: err.response.data
       })
     );
+  history.push("ploca-upravljanje");
 };
 
 export const createSubject = (grade, subjectData) => dispatch => {
@@ -106,6 +113,31 @@ export const getQuestions = (grade, subject, section, history) => dispatch => {
   }
 };
 
+export const editQuestion = (
+  grade,
+  subject,
+  questionId,
+  editData,
+  history
+) => dispatch => {
+  dispatch(testLoading());
+  axios
+    .post(`/api/tests/${grade}/${subject}/${questionId}`, editData)
+    .then(res =>
+      dispatch({
+        type: GET_QUESTIONS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_QUESTIONS,
+        payload: []
+      })
+    );
+  history.push("/ploca-upravljanje");
+};
+
 export const selectGrade = grade => dispatch => {
   dispatch({
     type: SELECTED_GRADE,
@@ -124,6 +156,12 @@ export const selectSection = section => dispatch => {
   dispatch({
     type: SELECTED_SECTION,
     payload: section
+  });
+};
+export const selectQuestion = question => dispatch => {
+  dispatch({
+    type: GET_QUESTION,
+    payload: question
   });
 };
 
@@ -153,6 +191,6 @@ export const deleteQuestion = (grade, subject, questionId) => dispatch => {
 
 export const testLoading = () => dispatch => {
   dispatch({
-    type: TEST_LOADING
+    type: LOADING_TESTS
   });
 };

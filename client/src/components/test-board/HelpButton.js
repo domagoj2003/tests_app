@@ -9,11 +9,14 @@ class HelpButton extends Component {
   };
 
   render() {
+    const { actionStatus, timer } = this.props.test;
+    let disabled = timer < 1 || !actionStatus;
     return (
       <div className="col-md-12">
         <Button
           name="pomoć"
-          className="btn btn-info"
+          disabled={disabled}
+          className="btn btn-info btn-block"
           type="button"
           onClick={this.onClick}
         />

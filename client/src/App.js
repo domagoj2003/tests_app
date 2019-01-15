@@ -12,11 +12,16 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Examboard from "./components/examboard/Examboard";
+import Grades from "./components/examboard/Grades";
+import Subjects from "./components/examboard/Subjects";
+import Sections from "./components/examboard/Sections";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import Board from "./components/profileboard/Board";
 import EditProfile from "./components/edit-profile/EditProfile";
-import SelectBoard from "./components/handle-data/SelectBoard";
+import EditQuestion from "./components/edit-question/EditQuestion";
+import HandleGrades from "./components/handle-data/HandleGrades";
+import HandleSubjects from "./components/handle-data/HandleSubjects";
+import HandleSections from "./components/handle-data/HandleSections";
 import ActionBoard from "./components/handle-data/ActionBoard";
 import QuestionForm from "./components/handle-data/QuestionForm";
 import SubjectForm from "./components/handle-data/SubjectForm";
@@ -56,7 +61,13 @@ class App extends Component {
               <Route exact path="/prijava" component={Login} />
               <Route exact path="/profil" component={Board} />
               <Switch>
-                <PrivateRoute exact path="/testovi" component={Examboard} />
+                <PrivateRoute exact path="/razred" component={Grades} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/predmeti" component={Subjects} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/poglavlje" component={Sections} />
               </Switch>
               <Switch>
                 <PrivateRoute
@@ -73,7 +84,21 @@ class App extends Component {
                 />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/ploca" component={SelectBoard} />
+                <PrivateRoute exact path="/ploca" component={HandleGrades} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/ploca-predmeti"
+                  component={HandleSubjects}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/ploca-poglavlja"
+                  component={HandleSections}
+                />
               </Switch>
               <Switch>
                 <PrivateRoute
@@ -98,6 +123,13 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/test" component={TestBoard} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/uredi-pitanje"
+                  component={EditQuestion}
+                />
               </Switch>
             </div>
             <Footer />

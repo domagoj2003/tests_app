@@ -2,16 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import {
-  getSubjects,
-  selectGrade,
-  clearSelections
-} from "../../actions/testsActions";
-import Grades from "../common/Grades";
-import Subjects from "../common/Subjects";
-import Sections from "./Sections";
+import { selectGrade, clearSelections } from "../../actions/testsActions";
+import ItemCard from "../common/ItemCard";
 
-class SelectBoard extends Component {
+class HandleGrades extends Component {
   componentDidMount() {
     this.props.clearSelections();
   }
@@ -21,49 +15,53 @@ class SelectBoard extends Component {
       this.props.history.push("/ploca-upravljanje");
     }
   }
-
   onClick = e => {
-    this.props.getSubjects(e.target.id);
     this.props.selectGrade(e.target.id);
   };
+
   render() {
     const { selectedGrade } = this.props.selected;
     let createNewSubject;
     if (selectedGrade) {
       createNewSubject = (
         <p>
-          <Link to="/novi-predmet" className="btn btn-link">
+          <Link to="/novi-predmet" className="btn btn-primary">
             Novi Predmet
           </Link>
         </p>
       );
     }
     const grades = [
-      { name: "5. Razed", id: "peti" },
-      { name: "6. Razed", id: "sesti" },
-      { name: "7. Razed", id: "sedmi" },
-      { name: "8. Razed", id: "osmi" }
+      { name: "5.", id: "peti" },
+      { name: "6.", id: "sesti" },
+      { name: "7.", id: "sedmi" },
+      { name: "8.", id: "osmi" }
     ];
+
+    const content = grades.map((grade, index) => (
+      <ItemCard
+        key={index}
+        id={grade.id}
+        item={grade.name}
+        to={`/ploca-predmeti`}
+        onClick={this.onClick}
+        style={{ fontSize: `7rem`, textAlign: `center` }}
+      />
+    ));
+
     return (
-      <div className="container">
-        <div className="card card-body bg-light">
-          <div className="row">
-            <div className="col-md-12 offset-md-5">{createNewSubject}</div>
-          </div>
-          <div className="row">
-            <Grades onClick={this.onClick} grades={grades} />
-            <Subjects />
-            <Sections />
-          </div>
+      <div className="row justify-content-md-center">
+        <div className="col-md-12 text-center display-4 mb-5 mt-5">
+          Odaberi razred:
         </div>
+        {content}
       </div>
     );
   }
 }
-SelectBoard.propTypes = {
+HandleGrades.propTypes = {
   tests: PropTypes.object.isRequired,
   selected: PropTypes.object.isRequired,
-  getSubjects: PropTypes.func.isRequired,
   selectGrade: PropTypes.func.isRequired,
   clearSelections: PropTypes.func.isRequired
 };
@@ -75,5 +73,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getSubjects, selectGrade, clearSelections }
-)(SelectBoard);
+  { selectGrade, clearSelections }
+)(HandleGrades);

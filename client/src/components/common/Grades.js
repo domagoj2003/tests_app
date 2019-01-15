@@ -12,7 +12,7 @@ class Grades extends Component {
             name={item.name}
             id={item.id}
             onClick={this.props.onClick}
-            className="btn btn-link"
+            className="btn btn-light btn-block"
           />
         </p>
       </div>

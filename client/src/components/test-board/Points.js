@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 class Points extends Component {
   render() {
     const { maxPoints, points } = this.props.test;
+
     return (
       <div className="col-md-12 align-middle">
         <h4>Bodovi:</h4>

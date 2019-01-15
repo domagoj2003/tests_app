@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 import PropTypes from "prop-types";
@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 class Navbar extends Component {
   onClick = e => {
     e.preventDefault();
-    this.props.logoutUser();
+    this.props.logoutUser(this.props.history);
   };
 
   render() {
@@ -46,7 +46,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            Učillica
+            Učionica
           </Link>
           <button
             className="navbar-toggler"
@@ -65,7 +65,7 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/testovi">
+                <Link className="nav-link" to="/razred">
                   Testovi
                 </Link>
               </li>
@@ -97,4 +97,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(Navbar);
+)(withRouter(Navbar));

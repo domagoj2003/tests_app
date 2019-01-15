@@ -9,10 +9,13 @@ class Landing extends Component {
           <div className="container">
             <div className="row">
               <div className="col-md-12 text-center">
-                <h1 className="display-3 mb-4">Nauči Za Ispit</h1>
+                <h1 className="display-3 mb-4">Učionica</h1>
                 <p className="lead">
-                  Riješi ispite, nauči aktualno gradivo, komuniciraj sa drugim
-                  članovima. Potpuno besplatno.
+                  Portal I društvena mreža za osnovnoškolce.
+                </p>
+                <p className="lead">
+                  Testiraj svoje znanje iz predmeta koje trenutno učiš, podijeli
+                  rezultate i <br /> znanje sa frendovima, lajkaj, komentiraj.
                 </p>
                 <hr />
                 <Link to="/registracija" className="btn btn-lg btn-info mr-2">

@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import TextArea from "../common/TextArea";
 import InputField from "../common/InputField";
-import { createQuestion } from "../../actions/testsActions";
+import TextArea from "../common/TextArea";
+import { editQuestion } from "../../actions/testsActions";
 
-class QuestionForm extends Component {
+class EditQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      section: this.props.selected.selectedSection,
+      section: "",
       question: "",
       correctanswer: "",
       help: "",
@@ -25,6 +25,17 @@ class QuestionForm extends Component {
       });
     }
   }
+
+  componentDidMount() {
+    const { selectedQuestion } = this.props.selected;
+    this.setState({
+      section: selectedQuestion.section,
+      question: selectedQuestion.question,
+      correctanswer: selectedQuestion.correctanswer,
+      help: selectedQuestion.help,
+      info: selectedQuestion.info
+    });
+  }
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -32,23 +43,30 @@ class QuestionForm extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    const { selectedGrade, selectedSubject } = this.props.selected;
-    const questionData = {
+    const {
+      selectedGrade,
+      selectedSubject,
+      selectedQuestion
+    } = this.props.selected;
+    const editData = {
       section: this.state.section,
       question: this.state.question,
       correctanswer: this.state.correctanswer,
       help: this.state.help,
       info: this.state.info
     };
-    this.props.createQuestion(
+    this.props.editQuestion(
       selectedGrade,
       selectedSubject,
-      questionData,
+      selectedQuestion._id,
+      editData,
       this.props.history
     );
   };
+
   render() {
     const { errors } = this.state;
+    const { selectedSection } = this.props.selected;
     return (
       <div className="create-question">
         <div className="row">
@@ -56,15 +74,15 @@ class QuestionForm extends Component {
             <Link to="/ploca-upravljanje" className="btn btn-light">
               Povratak
             </Link>
-            <h1 className="display-4 text-center">Novo pitanje</h1>
+            <h1 className="display-4 text-center">Uredi detalje</h1>
             <small className="d-block pb-3">* obvezna polja</small>
             <form onSubmit={this.onSubmit}>
               <InputField
                 name="section"
-                value={this.state.section}
+                value={selectedSection}
                 errors={errors.section}
                 onChange={this.onChange}
-                disabled={false}
+                disabled={true}
               />
               <TextArea
                 name="question"
@@ -77,7 +95,6 @@ class QuestionForm extends Component {
                 name="correctanswer"
                 value={this.state.correctanswer}
                 errors={errors.correctanswer}
-                placeholder="Odgovor"
                 onChange={this.onChange}
               />
               <TextArea
@@ -95,7 +112,7 @@ class QuestionForm extends Component {
                 onChange={this.onChange}
               />
               <button className="btn btn-info btn-block mt-4">
-                Kreiraj pitanje
+                Uredi pitanje
               </button>
             </form>
           </div>
@@ -104,12 +121,6 @@ class QuestionForm extends Component {
     );
   }
 }
-
-QuestionForm.propTypes = {
-  selected: PropTypes.object.isRequired,
-  createQuestion: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   selected: state.selected,
   errors: state.errors
@@ -117,5 +128,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createQuestion }
-)(withRouter(QuestionForm));
+  { editQuestion }
+)(withRouter(EditQuestion));

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import QuestionList from "./QuestionList";
+import { getQuestions } from "../../actions/testsActions";
 
 class ActionBoard extends Component {
   render() {
@@ -14,7 +15,7 @@ class ActionBoard extends Component {
               Povratak
             </Link>
           </div>
-          <div className="col-md-1 offset-md-1">
+          <div className="col-md-1 offset-9">
             <Link to="/novo-pitanje" className="btn btn-light">
               Kreiraj pitanje
             </Link>
@@ -38,4 +39,7 @@ const mapStateToProps = state => ({
   selected: state.selected
 });
 
-export default connect(mapStateToProps)(ActionBoard);
+export default connect(
+  mapStateToProps,
+  { getQuestions }
+)(ActionBoard);
