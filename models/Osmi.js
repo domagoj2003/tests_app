@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const SestiSchema = new Schema({
+const OsmiSchema = new Schema({
   subject: {
     type: String,
     required: true
@@ -37,4 +37,4 @@ const SestiSchema = new Schema({
   ]
 });
 
-module.exports = Sesti = mongoose.model("sesti", SestiSchema);
+module.exports = Osmi = mongoose.model("osmi", OsmiSchema);

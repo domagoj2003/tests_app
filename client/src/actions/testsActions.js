@@ -29,13 +29,13 @@ export const createQuestion = (
         payload: res.data
       })
     )
+    .then(res => history.push("/ploca-upravljanje"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
     );
-  history.push("ploca-upravljanje");
 };
 
 export const createSubject = (grade, subjectData) => dispatch => {
@@ -129,13 +129,13 @@ export const editQuestion = (
         payload: res.data
       })
     )
+    .then(res => history.push("/ploca-upravljanje"))
     .catch(err =>
       dispatch({
-        type: GET_QUESTIONS,
-        payload: []
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
-  history.push("/ploca-upravljanje");
 };
 
 export const selectGrade = grade => dispatch => {

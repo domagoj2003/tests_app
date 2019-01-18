@@ -3,18 +3,21 @@ import {
   TEST_LOADING,
   GET_CURRENT_QUESTION,
   REMOVE_CURRENT_QUESTION,
-  ANSWER_CORRECT,
-  ANSWER_WRONG,
   HELP_GET,
   ADD_POINTS,
   CLEAR_FIELDS,
   ACTION_STATUS,
   COUNT_QUESTION,
   TOTAL_QUESTIONS,
+  SHUFFLE_OPTIONS,
   SET_TIMER,
-  RESET_TEST
+  RESET_TEST,
+  CORRECT_ANSWER,
+  WRONG_ANSWER
 } from "./types";
 import axios from "axios";
+
+import shuffle from "shuffle-array";
 
 export const getTestQuestions = (
   grade,
@@ -55,6 +58,21 @@ export const newQuestion = questions => dispatch => {
     type: REMOVE_CURRENT_QUESTION,
     payload: id
   });
+  if (currentQuestion.sort === "B") {
+    dispatch(
+      answerOptions(currentQuestion.correctanswer, currentQuestion.options)
+    );
+  }
+};
+
+export const answerOptions = (answer, options) => dispatch => {
+  let correctAnswer = new Array(answer);
+  let wrongAnswers = options.split(",").filter(option => option !== false);
+  let answerArr = shuffle(correctAnswer.concat(wrongAnswers));
+  dispatch({
+    type: SHUFFLE_OPTIONS,
+    payload: answerArr
+  });
 };
 
 export const setTimer = () => dispatch => {
@@ -63,15 +81,14 @@ export const setTimer = () => dispatch => {
     payload: 1
   });
 };
-
 export const answerStatus = isCorrect => dispatch => {
   if (isCorrect) {
     dispatch({
-      type: ANSWER_CORRECT
+      type: CORRECT_ANSWER
     });
   } else {
     dispatch({
-      type: ANSWER_WRONG
+      type: WRONG_ANSWER
     });
   }
 };

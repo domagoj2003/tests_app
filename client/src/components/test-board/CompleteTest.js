@@ -20,7 +20,6 @@ class CompleteTest extends Component {
       points: points,
       maxPoints: maxPoints
     };
-    console.log(newResult);
     this.props.saveResult(newResult, this.props.history);
   };
   render() {

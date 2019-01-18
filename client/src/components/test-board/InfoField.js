@@ -25,7 +25,8 @@ class InfoField extends Component {
       <div>
         {answerStatus && (
           <p className="lead" style={{ marginTop: `2em` }}>
-            Odgovor je točan - {currentQuestion.correctanswer} <br />
+            Odgovor je točan!
+            <br />
           </p>
         )}
         {!answerStatus && (

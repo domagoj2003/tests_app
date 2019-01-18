@@ -4,15 +4,18 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextArea from "../common/TextArea";
 import InputField from "../common/InputField";
+import SelectField from "../common/SelectField";
 import { createQuestion } from "../../actions/testsActions";
 
 class QuestionForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      section: this.props.selected.selectedSection,
+      section: "",
+      sort: "",
       question: "",
       correctanswer: "",
+      options: "",
       help: "",
       info: "",
       errors: {}
@@ -25,6 +28,11 @@ class QuestionForm extends Component {
       });
     }
   }
+  componentDidMount() {
+    this.setState({
+      section: this.props.selected.selectedSection
+    });
+  }
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -35,8 +43,10 @@ class QuestionForm extends Component {
     const { selectedGrade, selectedSubject } = this.props.selected;
     const questionData = {
       section: this.state.section,
+      sort: this.state.sort,
       question: this.state.question,
       correctanswer: this.state.correctanswer,
+      options: this.state.options,
       help: this.state.help,
       info: this.state.info
     };
@@ -49,6 +59,11 @@ class QuestionForm extends Component {
   };
   render() {
     const { errors } = this.state;
+    const options = [
+      { label: "* odaberi tip pitanja", value: "" },
+      { label: "A", value: "A" },
+      { label: "B", value: "B" }
+    ];
     return (
       <div className="create-question">
         <div className="row">
@@ -66,6 +81,15 @@ class QuestionForm extends Component {
                 onChange={this.onChange}
                 disabled={false}
               />
+              <SelectField
+                name="sort"
+                value={this.state.sort}
+                options={options}
+                placeholder="Tip pitanja"
+                onChange={this.onChange}
+                errors={errors.sort}
+                info="* A - pisani odgovor; B - odabir između više ponuđenih opcija"
+              />
               <TextArea
                 name="question"
                 value={this.state.question}
@@ -77,9 +101,20 @@ class QuestionForm extends Component {
                 name="correctanswer"
                 value={this.state.correctanswer}
                 errors={errors.correctanswer}
-                placeholder="Odgovor"
+                placeholder="Točan odgovor"
                 onChange={this.onChange}
               />
+              {this.state.sort === "B" && (
+                <InputField
+                  name="options"
+                  value={this.state.options}
+                  placeholder="* opcije ponuđenih odgovora"
+                  errors={errors.options}
+                  onChange={this.onChange}
+                  disabled={false}
+                  info="* navedi minimalno tri opcije za biranje odgovora. Svaka opcija MORA biti razdvojena zarezom ( , )"
+                />
+              )}
               <TextArea
                 name="help"
                 value={this.state.help}

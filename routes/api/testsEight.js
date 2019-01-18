@@ -3,18 +3,18 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
 
-const Sesti = require("../../models/Sesti");
+const Osmi = require("../../models/Osmi");
 const User = require("../../models/Users");
 const validateQuestionsInput = require("../../validation/questions");
 
-// ŠESTI RAZRED
+// OSMI RAZRED
 
 //checked
-// @route:  GET api/tests/sesti/
+// @route:  GET api/tests/osmi/
 // desc:    Get all subjects
 // access:  Public
 router.get("/", (req, res) => {
-  Sesti.find()
+  Osmi.find()
     .then(subjects => {
       const subjectList = subjects.map(item => item.subject);
       res.json(subjectList);
@@ -22,11 +22,11 @@ router.get("/", (req, res) => {
     .catch(err => res.status(404).json(err));
 });
 //checked
-// @route:  GET api/tests/sesti/:subject
+// @route:  GET api/tests/osmi/:subject
 // desc:    Get all sections for specific subject
 // access:  Public
 router.get("/:subject", (req, res) => {
-  Sesti.findOne({ subject: req.params.subject })
+  Osmi.findOne({ subject: req.params.subject })
     .then(subjects => {
       const sections = [
         ...new Set(subjects.questionset.map(item => item.section))
@@ -36,14 +36,14 @@ router.get("/:subject", (req, res) => {
     .catch(err => res.json({ message: "Predmet ne postoji" }));
 });
 //checked
-// @route:  GET api/tests/sesti/:subject/:section
+// @route:  GET api/tests/osmi/:subject/:section
 // desc:    Get questions for  specific section of subject
 // access:  Private
 router.get(
   "/:subject/:section",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Sesti.findOne({ subject: req.params.subject }).then(subject => {
+    Osmi.findOne({ subject: req.params.subject }).then(subject => {
       const testQuestions = subject.questionset.filter(
         item => item.section === req.params.section
       );
@@ -52,7 +52,7 @@ router.get(
   }
 );
 //checked
-// @route:  POST api/tests/sesti
+// @route:  POST api/tests/osmi
 // desc:    Create a subject for sixth grade
 // access:  Private /Admin
 
@@ -60,11 +60,11 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Sesti.findOne({ subject: req.body.subject }).then(subject => {
+    Osmi.findOne({ subject: req.body.subject }).then(subject => {
       if (subject) {
         res.json({ message: "Predmet je kreiran" });
       } else {
-        const newSubject = new Sesti({
+        const newSubject = new Osmi({
           subject: req.body.subject
         });
         newSubject
@@ -76,7 +76,7 @@ router.post(
   }
 );
 //checked
-// @route:  POST api/tests/sesti/:subject
+// @route:  POST api/tests/osmi/:subject
 // desc:    Create Q&A for specific subject
 // access:  Private / Admin
 router.post(
@@ -92,7 +92,7 @@ router.post(
           errors.admin = "Nemaš administratorski pristup";
           res.status(400).json(errors);
         } else {
-          Sesti.findOne({ subject: req.params.subject })
+          Osmi.findOne({ subject: req.params.subject })
             .then(subject => {
               const newQuestion = {
                 section: req.body.section,
@@ -116,7 +116,7 @@ router.post(
   }
 );
 
-// @route:  POST api/tests/sesti/:subject/:question_id
+// @route:  POST api/tests/osmi/:subject/:question_id
 // desc:    edit question
 // access:  Private / Admin
 router.post(
@@ -132,7 +132,7 @@ router.post(
           errors.admin = "Nemaš administratorski pristup";
           res.status(400).json(errors);
         } else {
-          Sesti.findOne({ subject: req.params.subject })
+          Osmi.findOne({ subject: req.params.subject })
             .then(subject => {
               const questionEdit = subject.questionset.find(
                 item => item._id.toString() === req.params.question_id
@@ -161,7 +161,7 @@ router.post(
 );
 
 //checked
-// @route:  DELETE api/tests/sesti/:subject/:question_id
+// @route:  DELETE api/tests/osmi/:subject/:question_id
 // desc:    Delete a question
 // access:  Private / Admin
 router.delete(
@@ -172,7 +172,7 @@ router.delete(
       if (!user.admin) {
         res.status(400).json({ message: "Nemaš administratorski pristup" });
       } else {
-        Sesti.findOne({ subject: req.params.subject })
+        Osmi.findOne({ subject: req.params.subject })
           .then(subject => {
             const removeIndex = subject.questionset
               .map(item => item._id.toString())

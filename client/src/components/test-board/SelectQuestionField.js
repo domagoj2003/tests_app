@@ -1,21 +1,18 @@
 import React, { Component } from "react";
-import InputField from "../common/InputField";
-import Button from "../common/Button";
 import { connect } from "react-redux";
-import QuestionCount from "./QuestionCount";
-import InfoField from "./InfoField";
-import HelpField from "./HelpField";
+import Button from "../common/Button";
 import PropTypes from "prop-types";
+import HelpField from "./HelpField";
+import InfoField from "./InfoField";
+import QuestionCount from "./QuestionCount";
 import isCorrect from "../../validation/is-correct";
 import {
+  actionStatus,
   addPoints,
-  answerStatus,
-  newQuestion,
-  questionCounter,
-  actionStatus
+  answerStatus
 } from "../../actions/testActions";
 
-class QuestionField extends Component {
+class SelectQuestionField extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,28 +41,41 @@ class QuestionField extends Component {
   };
 
   render() {
-    const { currentQuestion, actionStatus } = this.props.test;
-    let timeRunOut = this.props.test.timer < 1 ? true : false;
+    const {
+      currentQuestion,
+      timer,
+      actionStatus,
+      answerOptions
+    } = this.props.test;
+    let timeRunOut = timer < 1 ? true : false;
     let content;
+    let options = answerOptions.map((option, index) => (
+      <div key={index} className="lead" style={{ margin: `1em` }}>
+        <input
+          className="form-check-input"
+          type="radio"
+          name="answer"
+          id={index}
+          value={option}
+          onChange={this.onChange}
+        />
+        <label className="form-check-label" htmlFor={index}>
+          {option}
+        </label>
+      </div>
+    ));
     content =
       actionStatus && !timeRunOut ? (
         <div>
           <p className="lead" style={{ marginTop: `2em`, marginBottom: `2em` }}>
             {currentQuestion.question}
           </p>
-          <form onSubmit={this.onSubmit}>
-            <InputField
-              name="answer"
-              placeholder="tvoj odgovor..."
-              value={this.state.answer}
-              onChange={this.onChange}
-              disabled={timeRunOut}
-            />
+          <form onSubmit={this.onSubmit} className="form-check">
+            {options}
             <Button
               className="btn btn-success btn-block"
               name="Odgovori"
               type="submit"
-              disabled={timeRunOut}
             />
           </form>
           <HelpField />
@@ -75,6 +85,7 @@ class QuestionField extends Component {
           <InfoField />
         </div>
       );
+
     return (
       <div>
         <QuestionCount />
@@ -83,22 +94,11 @@ class QuestionField extends Component {
     );
   }
 }
-
-QuestionField.propTypes = {
-  test: PropTypes.object.isRequired,
-  selected: PropTypes.object.isRequired,
-  answerStatus: PropTypes.func.isRequired,
-  addPoints: PropTypes.func.isRequired,
-  newQuestion: PropTypes.func.isRequired,
-  questionCounter: PropTypes.func.isRequired,
-  actionStatus: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
-  test: state.test,
-  selected: state.selected
+  test: state.test
 });
+
 export default connect(
   mapStateToProps,
-  { addPoints, newQuestion, answerStatus, questionCounter, actionStatus }
-)(QuestionField);
+  { actionStatus, addPoints, answerStatus }
+)(SelectQuestionField);

@@ -3,14 +3,15 @@ import {
   TEST_LOADING,
   GET_CURRENT_QUESTION,
   REMOVE_CURRENT_QUESTION,
-  ANSWER_CORRECT,
-  ANSWER_WRONG,
   HELP_GET,
   ADD_POINTS,
   CLEAR_FIELDS,
   ACTION_STATUS,
   COUNT_QUESTION,
   TOTAL_QUESTIONS,
+  CORRECT_ANSWER,
+  WRONG_ANSWER,
+  SHUFFLE_OPTIONS,
   SET_TIMER,
   RESET_TEST
 } from "../actions/types";
@@ -19,10 +20,11 @@ const initialState = {
   questions: null,
   currentQuestion: null,
   actionStatus: undefined,
+  answerOptions: undefined,
+  answerStatus: undefined,
   maxPoints: 100,
   points: 0,
   timer: 15,
-  answerStatus: null,
   helpStatus: null,
   questionsTotal: null,
   questionCounter: 0,
@@ -48,12 +50,17 @@ export default function(state = initialState, action) {
         currentQuestion: action.payload,
         loading: false
       };
-    case ANSWER_CORRECT:
+    case SHUFFLE_OPTIONS:
+      return {
+        ...state,
+        answerOptions: action.payload
+      };
+    case CORRECT_ANSWER:
       return {
         ...state,
         answerStatus: true
       };
-    case ANSWER_WRONG:
+    case WRONG_ANSWER:
       return {
         ...state,
         answerStatus: false
@@ -95,6 +102,7 @@ export default function(state = initialState, action) {
         timer: initialState.timer,
         answerStatus: initialState.answerStatus,
         helpStatus: initialState.helpStatus,
+        answerOptions: initialState.answerOptions,
         actionStatus: initialState.actionStatus
       };
     case RESET_TEST:

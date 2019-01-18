@@ -91,6 +91,7 @@ class QuestionList extends Component {
             data={item}
             question="Pitanje: "
             answer="Odgovor: "
+            options="Opcije: "
             help="Pomoć: "
             info="Info: "
           />

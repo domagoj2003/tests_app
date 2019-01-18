@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Points from "./Points";
 import Timer from "./Timer";
 import QuestionField from "./QuestionField";
+import SelectQuestionField from "./SelectQuestionField";
 import HelpButton from "./HelpButton";
 import CancelButton from "./CancelButton";
 import InitialInfo from "./InitialInfo";
@@ -21,7 +22,7 @@ class TestBoard extends Component {
   }
 
   render() {
-    const { actionStatus } = this.props.test;
+    const { actionStatus, currentQuestion } = this.props.test;
     let content;
     if (actionStatus === undefined) {
       content = <InitialInfo />;
@@ -34,9 +35,16 @@ class TestBoard extends Component {
               <Timer />
             </div>
           </div>
-          <div className="col-lg-8">
-            <QuestionField />
-          </div>
+          {currentQuestion.sort === "A" && (
+            <div className="col-lg-8">
+              <QuestionField />
+            </div>
+          )}
+          {currentQuestion.sort === "B" && (
+            <div className="col-lg-8">
+              <SelectQuestionField />
+            </div>
+          )}
           <div className="col-md-2">
             <div className="row">
               <HelpButton />

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import InputField from "../common/InputField";
+import SelectField from "../common/SelectField";
 import TextArea from "../common/TextArea";
 import { editQuestion } from "../../actions/testsActions";
 
@@ -11,8 +12,10 @@ class EditQuestion extends Component {
     super(props);
     this.state = {
       section: "",
+      sort: "",
       question: "",
       correctanswer: "",
+      options: "",
       help: "",
       info: "",
       errors: {}
@@ -30,8 +33,10 @@ class EditQuestion extends Component {
     const { selectedQuestion } = this.props.selected;
     this.setState({
       section: selectedQuestion.section,
+      sort: selectedQuestion.sort,
       question: selectedQuestion.question,
       correctanswer: selectedQuestion.correctanswer,
+      options: selectedQuestion.options,
       help: selectedQuestion.help,
       info: selectedQuestion.info
     });
@@ -50,8 +55,10 @@ class EditQuestion extends Component {
     } = this.props.selected;
     const editData = {
       section: this.state.section,
+      sort: this.state.sort,
       question: this.state.question,
       correctanswer: this.state.correctanswer,
+      options: this.state.options,
       help: this.state.help,
       info: this.state.info
     };
@@ -67,6 +74,11 @@ class EditQuestion extends Component {
   render() {
     const { errors } = this.state;
     const { selectedSection } = this.props.selected;
+    const options = [
+      { label: "Odaberi tip pitanja", value: "" },
+      { label: "A", value: "A" },
+      { label: "B", value: "B" }
+    ];
     return (
       <div className="create-question">
         <div className="row">
@@ -84,6 +96,15 @@ class EditQuestion extends Component {
                 onChange={this.onChange}
                 disabled={true}
               />
+              <SelectField
+                name="sort"
+                value={this.state.sort}
+                options={options}
+                placeholder="Tip pitanja"
+                onChange={this.onChange}
+                errors={errors.sort}
+                info="A - odgovor se mora napisati; B - odabir između više ponuđenih opcija"
+              />
               <TextArea
                 name="question"
                 value={this.state.question}
@@ -97,6 +118,17 @@ class EditQuestion extends Component {
                 errors={errors.correctanswer}
                 onChange={this.onChange}
               />
+              {this.state.sort === "B" && (
+                <InputField
+                  name="options"
+                  value={this.state.options}
+                  placeholder="* opcije ponuđenih odgovora"
+                  errors={errors.options}
+                  onChange={this.onChange}
+                  disabled={false}
+                  info="* navedi minimalno tri opcije za biranje odgovora. Svaka opcija MORA biti razdvojena zarezom ( , )"
+                />
+              )}
               <TextArea
                 name="help"
                 value={this.state.help}

@@ -41,7 +41,7 @@ const SelectField = ({
 SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  errors: PropTypes.object,
+  errors: PropTypes.string,
   info: PropTypes.string,
   value: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
