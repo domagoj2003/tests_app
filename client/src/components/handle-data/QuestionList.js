@@ -54,7 +54,7 @@ class QuestionList extends Component {
       content = questions.map((item, index) => (
         <div key={item._id}>
           <div className="row" style={{ marginTop: `1em` }}>
-            <div className="col-md-1">{index + 1}</div>
+            <div className="col-md-1">{index + 1}.</div>
             <div className="col"> {item.question}</div>
             <div className="col-md-1">
               <Button

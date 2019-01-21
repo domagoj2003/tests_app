@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import Button from "../common/Button";
-import { saveResult } from "../../actions/profileActions";
+import { saveResult } from "../../actions/resultsActions";
 
 class CompleteTest extends Component {
   onClick = e => {

@@ -22,7 +22,7 @@ const Results = ({ results, user }) => {
                 <div className="col-2">{result.subject}</div>
                 <div className="col">{result.section}</div>
                 <div className="col-1">
-                  {(result.points / result.maxpoints) * 100} %
+                  {Math.round((result.points / result.maxpoints) * 100)} %
                 </div>
                 <div className="col">
                   <Moment format="DD.MM.YYYY - HH:mm">{result.date}</Moment>

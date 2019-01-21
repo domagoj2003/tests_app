@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import QuestionCount from "./QuestionCount";
 import InfoField from "./InfoField";
 import HelpField from "./HelpField";
+import Path from "./Path";
 import PropTypes from "prop-types";
 import isCorrect from "../../validation/is-correct";
 import {
@@ -22,6 +23,11 @@ class QuestionField extends Component {
       answer: ""
     };
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.test.timer === 0) {
+      this.setState({ answer: "" });
+    }
+  }
 
   onChange = e => {
     this.setState({
@@ -37,7 +43,7 @@ class QuestionField extends Component {
       this.props.actionStatus();
       const answerState = isCorrect(correctanswer, answer);
       this.props.answerStatus(answerState);
-      let points = !answerState ? 0 : helpStatus ? 10 : 20;
+      let points = !answerState ? 0 : helpStatus ? 1 : 3;
       this.props.addPoints(points);
       this.setState({ answer: "" });
     }
@@ -45,6 +51,7 @@ class QuestionField extends Component {
 
   render() {
     const { currentQuestion, actionStatus } = this.props.test;
+    const { selectedSubject, selectedSection } = this.props.selected;
     let timeRunOut = this.props.test.timer < 1 ? true : false;
     let content;
     content =
@@ -77,6 +84,7 @@ class QuestionField extends Component {
       );
     return (
       <div>
+        <Path subject={selectedSubject} section={selectedSection} />
         <QuestionCount />
         {content}
       </div>

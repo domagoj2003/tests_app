@@ -5,8 +5,14 @@ class HelpField extends Component {
   render() {
     const { currentQuestion, helpStatus } = this.props.test;
     let content;
-    if (!currentQuestion || !helpStatus) {
+    if (!currentQuestion || helpStatus === undefined) {
       content = null;
+    } else if (helpStatus === false) {
+      content = (
+        <div style={{ marginTop: `1.5em` }}>
+          <p className="lead text-info">Za pitanje nije dostupna Pomoć.</p>
+        </div>
+      );
     } else {
       content = (
         <div style={{ marginTop: `1.5em` }}>

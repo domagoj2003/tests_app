@@ -173,20 +173,22 @@ export const clearSelections = () => dispatch => {
 
 export const deleteQuestion = (grade, subject, questionId) => dispatch => {
   dispatch(testLoading());
-  axios
-    .delete(`/api/tests/${grade}/${subject}/${questionId}`)
-    .then(res =>
-      dispatch({
-        type: DELETE_QUESTION,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+  if (window.confirm("Da li si siguran da želiš obrisati podatke?")) {
+    axios
+      .delete(`/api/tests/${grade}/${subject}/${questionId}`)
+      .then(res =>
+        dispatch({
+          type: DELETE_QUESTION,
+          payload: res.data
+        })
+      )
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  }
 };
 
 export const testLoading = () => dispatch => {

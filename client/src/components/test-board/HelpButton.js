@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "../common/Button";
-import { helpStatus } from "../../actions/testActions";
+import { helpStatus, noHelp } from "../../actions/testActions";
 
 class HelpButton extends Component {
   onClick = e => {
-    this.props.helpStatus();
+    const { currentQuestion } = this.props.test;
+    if (currentQuestion.help) {
+      this.props.helpStatus();
+    } else {
+      this.props.noHelp();
+    }
   };
 
   render() {
@@ -31,5 +36,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { helpStatus }
+  { helpStatus, noHelp }
 )(HelpButton);

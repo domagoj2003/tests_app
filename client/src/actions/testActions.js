@@ -13,7 +13,9 @@ import {
   SET_TIMER,
   RESET_TEST,
   CORRECT_ANSWER,
-  WRONG_ANSWER
+  WRONG_ANSWER,
+  SET_MAXPOINTS,
+  NO_HELP
 } from "./types";
 import axios from "axios";
 
@@ -99,6 +101,12 @@ export const helpStatus = () => dispatch => {
   });
 };
 
+export const noHelp = () => dispatch => {
+  dispatch({
+    type: NO_HELP
+  });
+};
+
 export const addPoints = points => dispatch => {
   dispatch({
     type: ADD_POINTS,
@@ -109,6 +117,12 @@ export const setTotalQuestions = questionsNum => dispatch => {
   dispatch({
     type: TOTAL_QUESTIONS,
     payload: questionsNum
+  });
+};
+export const setMaxPoints = points => dispatch => {
+  dispatch({
+    type: SET_MAXPOINTS,
+    payload: points
   });
 };
 

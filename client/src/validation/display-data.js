@@ -41,3 +41,11 @@ export const dataDisplay = data => {
     .concat(subjectLowerCase)
     .replace(regExp, " "));
 };
+
+export const sortNumbers = results => {
+  const newRes = results.map(result =>
+    Math.round((result.points / result.maxPoints) * 100)
+  );
+  const sortNumber = (a, b) => b - a;
+  return newRes.sort(sortNumber);
+};

@@ -12,6 +12,7 @@ import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import Results from "./components/result-list/Results";
 import Grades from "./components/examboard/Grades";
 import Subjects from "./components/examboard/Subjects";
 import Sections from "./components/examboard/Sections";
@@ -60,6 +61,7 @@ class App extends Component {
               <Route exact path="/registracija" component={Register} />
               <Route exact path="/prijava" component={Login} />
               <Route exact path="/profil" component={Board} />
+              <Route exact path="/rezultati" component={Results} />
               <Switch>
                 <PrivateRoute exact path="/razred" component={Grades} />
               </Switch>

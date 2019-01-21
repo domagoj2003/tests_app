@@ -6,7 +6,7 @@ import Timer from "./Timer";
 import QuestionField from "./QuestionField";
 import SelectQuestionField from "./SelectQuestionField";
 import HelpButton from "./HelpButton";
-import CancelButton from "./CancelButton";
+
 import InitialInfo from "./InitialInfo";
 
 import { resetTest, actionStatus } from "../../actions/testActions";
@@ -48,7 +48,6 @@ class TestBoard extends Component {
           <div className="col-md-2">
             <div className="row">
               <HelpButton />
-              <CancelButton />
             </div>
           </div>
         </div>

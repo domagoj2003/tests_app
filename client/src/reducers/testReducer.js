@@ -11,9 +11,11 @@ import {
   TOTAL_QUESTIONS,
   CORRECT_ANSWER,
   WRONG_ANSWER,
+  SET_MAXPOINTS,
   SHUFFLE_OPTIONS,
   SET_TIMER,
-  RESET_TEST
+  RESET_TEST,
+  NO_HELP
 } from "../actions/types";
 
 const initialState = {
@@ -22,10 +24,10 @@ const initialState = {
   actionStatus: undefined,
   answerOptions: undefined,
   answerStatus: undefined,
-  maxPoints: 100,
+  maxPoints: null,
   points: 0,
-  timer: 15,
-  helpStatus: null,
+  timer: 30,
+  helpStatus: undefined,
   questionsTotal: null,
   questionCounter: 0,
   loading: false
@@ -69,6 +71,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         helpStatus: true
+      };
+    case NO_HELP:
+      return {
+        ...state,
+        helpStatus: false
+      };
+    case SET_MAXPOINTS:
+      return {
+        ...state,
+        maxPoints: action.payload
       };
     case ADD_POINTS:
       return {

@@ -6,13 +6,11 @@ class QuestionCount extends Component {
   render() {
     const { questionCounter, questionsTotal } = this.props.test;
     return (
-      <div>
-        <h4>
-          Pitanje:{" "}
-          <span>
-            {questionCounter} / {questionsTotal}
-          </span>
-        </h4>
+      <div className="lead">
+        Pitanje:{" "}
+        <span>
+          {questionCounter} / {questionsTotal}
+        </span>
       </div>
     );
   }

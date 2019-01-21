@@ -4,6 +4,7 @@ import Button from "../common/Button";
 import PropTypes from "prop-types";
 import HelpField from "./HelpField";
 import InfoField from "./InfoField";
+import Path from "./Path";
 import QuestionCount from "./QuestionCount";
 import isCorrect from "../../validation/is-correct";
 import {
@@ -11,6 +12,7 @@ import {
   addPoints,
   answerStatus
 } from "../../actions/testActions";
+import { stat } from "fs";
 
 class SelectQuestionField extends Component {
   constructor(props) {
@@ -19,7 +21,11 @@ class SelectQuestionField extends Component {
       answer: ""
     };
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.test.timer === 0) {
+      this.setState({ answer: "" });
+    }
+  }
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -34,7 +40,7 @@ class SelectQuestionField extends Component {
       this.props.actionStatus();
       const answerState = isCorrect(correctanswer, answer);
       this.props.answerStatus(answerState);
-      let points = !answerState ? 0 : helpStatus ? 10 : 20;
+      let points = !answerState ? 0 : helpStatus ? 1 : 3;
       this.props.addPoints(points);
       this.setState({ answer: "" });
     }
@@ -47,6 +53,7 @@ class SelectQuestionField extends Component {
       actionStatus,
       answerOptions
     } = this.props.test;
+    const { selectedSubject, selectedSection } = this.props.selected;
     let timeRunOut = timer < 1 ? true : false;
     let content;
     let options = answerOptions.map((option, index) => (
@@ -88,6 +95,7 @@ class SelectQuestionField extends Component {
 
     return (
       <div>
+        <Path subject={selectedSubject} section={selectedSection} />
         <QuestionCount />
         {content}
       </div>
@@ -95,7 +103,8 @@ class SelectQuestionField extends Component {
   }
 }
 const mapStateToProps = state => ({
-  test: state.test
+  test: state.test,
+  selected: state.selected
 });
 
 export default connect(

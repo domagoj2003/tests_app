@@ -4,6 +4,7 @@ import errorReducer from "./errorReducer";
 import profileReducer from "./profileReducer";
 import testsReducer from "./testsReducer";
 import testReducer from "./testReducer";
+import resultsReducer from "./resultsReducer";
 import selectReducer from "./selectReducer";
 
 export default combineReducers({
@@ -12,5 +13,6 @@ export default combineReducers({
   profile: profileReducer,
   tests: testsReducer,
   selected: selectReducer,
-  test: testReducer
+  test: testReducer,
+  results: resultsReducer
 });

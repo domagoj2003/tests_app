@@ -6,11 +6,12 @@ const path = require("path");
 
 // DB models import
 const users = require("./routes/api/users");
+const profile = require("./routes/api/profile");
+const results = require("./routes/api/results");
 const testsFifth = require("./routes/api/testsFifth");
 const testsSixth = require("./routes/api/testsSixth");
 const testsSeventh = require("./routes/api/testsSeventh");
 const testsEight = require("./routes/api/testsEight");
-const profile = require("./routes/api/profile");
 
 const app = express();
 
@@ -35,11 +36,12 @@ require("./config/passport_jwt")(passport);
 
 // Routes set-up config
 app.use("/api/users", users);
+app.use("/api/profile", profile);
+app.use("/api/results", results);
 app.use("/api/tests/peti", testsFifth);
 app.use("/api/tests/sesti", testsSixth);
 app.use("/api/tests/sedmi", testsSeventh);
 app.use("/api/tests/osmi", testsEight);
-app.use("/api/profile", profile);
 
 app.get("/", (req, res) => {
   res.send("test_knowledge_app");
