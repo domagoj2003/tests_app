@@ -45,7 +45,15 @@ class HandleGrades extends Component {
         item={grade.name}
         to={`/ploca-predmeti`}
         onClick={this.onClick}
-        style={{ fontSize: `7rem`, textAlign: `center` }}
+        cardStyle={{
+          width: `14rem`,
+          height: `14rem`,
+          backgroundColor: `powderblue`
+        }}
+        textStyle={{
+          fontSize: `7rem`,
+          textAlign: `center`
+        }}
       />
     ));
 

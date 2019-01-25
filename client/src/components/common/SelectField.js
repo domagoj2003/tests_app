@@ -26,6 +26,7 @@ const SelectField = ({
         info={info}
         value={value}
         onChange={onChange}
+        style={{ backgroundColor: `mintcream` }}
         className={classnames("form-control form-control-lg", {
           "is-invalid": errors
         })}
@@ -40,7 +41,7 @@ const SelectField = ({
 
 SelectField.propTypes = {
   name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   errors: PropTypes.string,
   info: PropTypes.string,
   value: PropTypes.string.isRequired,

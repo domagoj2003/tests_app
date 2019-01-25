@@ -80,6 +80,7 @@ class QuestionForm extends Component {
                 errors={errors.section}
                 onChange={this.onChange}
                 disabled={false}
+                info="* Sve mala slova. Ukoliko ima više riječi moraju biti povezane znakom '_' (underline)"
               />
               <SelectField
                 name="sort"

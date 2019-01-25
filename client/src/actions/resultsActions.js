@@ -1,10 +1,15 @@
 import axios from "axios";
-import { GET_RESULTS, GET_ERRORS, LOADING_RESULTS } from "./types";
+import {
+  GET_RESULTS,
+  GET_ERRORS,
+  LOADING_RESULTS,
+  DELETE_RESULT
+} from "./types";
 
 export const saveResult = (newResult, history) => dispatch => {
   axios
     .post("/api/results", newResult)
-    .then(history.push("/rezultati"))
+    .then(res => history.push("/rezultati"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -21,6 +26,18 @@ export const getResults = () => dispatch => {
       payload: res.data
     })
   );
+};
+
+export const deleteResult = resultId => dispatch => {
+  dispatch(loadingResults());
+  if (window.confirm("Da li si siguran da želiš obrisati podatke?")) {
+    axios.delete(`/api/results/${resultId}`).then(res =>
+      dispatch({
+        type: DELETE_RESULT,
+        payload: resultId
+      })
+    );
+  }
 };
 
 export const loadingResults = () => dispatch => {

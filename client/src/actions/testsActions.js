@@ -11,7 +11,8 @@ import {
   CLEAR_SELECTION,
   DELETE_QUESTION,
   GET_ERRORS,
-  GET_QUESTION
+  GET_QUESTION,
+  CLEAR_SECTION
 } from "./types";
 
 export const createQuestion = (
@@ -21,6 +22,7 @@ export const createQuestion = (
   history
 ) => dispatch => {
   dispatch(testLoading());
+  dispatch(selectSection(questionData.section));
   axios
     .post(`/api/tests/${grade}/${subject}`, questionData)
     .then(res =>
@@ -38,7 +40,7 @@ export const createQuestion = (
     );
 };
 
-export const createSubject = (grade, subjectData) => dispatch => {
+export const createSubject = (grade, subjectData, history) => dispatch => {
   dispatch(testLoading());
   axios
     .post(`/api/tests/${grade}`, subjectData)
@@ -48,10 +50,11 @@ export const createSubject = (grade, subjectData) => dispatch => {
         payload: res.data
       })
     )
+    .then(res => history.push("/ploca-predmeti"))
     .catch(err =>
       dispatch({
-        type: GET_SUBJECT,
-        payload: []
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -164,6 +167,11 @@ export const selectQuestion = question => dispatch => {
     payload: question
   });
 };
+export const clearSection = () => dispatch => {
+  dispatch({
+    type: CLEAR_SECTION
+  });
+};
 
 export const clearSelections = () => dispatch => {
   dispatch({
@@ -171,23 +179,30 @@ export const clearSelections = () => dispatch => {
   });
 };
 
-export const deleteQuestion = (grade, subject, questionId) => dispatch => {
+export const deleteQuestion = (
+  grade,
+  subject,
+  questionId,
+  selectedSection
+) => dispatch => {
+  const section = selectedSection;
   dispatch(testLoading());
   if (window.confirm("Da li si siguran da želiš obrisati podatke?")) {
     axios
       .delete(`/api/tests/${grade}/${subject}/${questionId}`)
-      .then(res =>
+      .then(res => {
         dispatch({
           type: DELETE_QUESTION,
-          payload: res.data
-        })
-      )
+          payload: res.data.filter(question => question.section === section)
+        });
+      })
       .catch(err =>
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data
         })
       );
+  } else {
   }
 };
 

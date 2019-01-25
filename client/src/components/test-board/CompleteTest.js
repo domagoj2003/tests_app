@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Button from "../common/Button";
 import { saveResult } from "../../actions/resultsActions";
 
@@ -18,19 +18,23 @@ class CompleteTest extends Component {
       subject: selectedSubject,
       section: selectedSection,
       points: points,
-      maxPoints: maxPoints
+      maxPoints: maxPoints,
+      percentage: Math.round((points / maxPoints) * 100)
     };
     this.props.saveResult(newResult, this.props.history);
   };
   render() {
     return (
       <div style={{ marginTop: `4em` }}>
-        <p>Čestitamo na rezultatu!</p>
+        <p>Kraj testa.</p>
         <Button
-          name="Završi test"
+          name="Spremi rezultat"
           onClick={this.onClick}
           className="btn btn-success btn-block"
         />
+        <Link to="/razred" className="btn btn-info btn-block">
+          Povratak
+        </Link>
       </div>
     );
   }

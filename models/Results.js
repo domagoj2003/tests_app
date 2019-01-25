@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ResultsSchema = new Schema({
-  results: [
+  resultlist: [
     {
       user: {
         type: Schema.Types.ObjectId,
@@ -20,11 +20,15 @@ const ResultsSchema = new Schema({
         type: String,
         required: true
       },
-      maxPoints: {
+      maxpoints: {
         type: Number,
         required: true
       },
       points: {
+        type: Number,
+        required: true
+      },
+      percentage: {
         type: Number,
         required: true
       },

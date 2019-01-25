@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { createSubject } from "../../actions/testsActions";
 import InputField from "../common/InputField";
@@ -32,7 +32,7 @@ class SubjectForm extends Component {
     const subjectData = {
       subject: this.state.subject
     };
-    this.props.createSubject(grade, subjectData);
+    this.props.createSubject(grade, subjectData, this.props.history);
   };
 
   render() {
@@ -51,16 +51,17 @@ class SubjectForm extends Component {
               <InputField
                 name="grade"
                 value={selectedGrade}
-                errors={errors.section}
+                errors={errors.grade}
                 onChange={this.onChange}
                 disabled={true}
-                info="Razred za koji kreiraš predmet"
+                info="Razred za koji kreiraš predmet. Obavezno sva mala slova!"
               />
               <InputField
                 name="subject"
                 value={this.state.subject}
                 errors={errors.subject}
                 onChange={this.onChange}
+                info="* Sve mala slova. Ukoliko ima više riječi moraju biti povezane znakom '_' (underline)"
               />
               <button className="btn btn-info btn-block mt-4">
                 Kreiraj Predmet
@@ -79,6 +80,7 @@ SubjectForm.propTypes = {
   createSubject: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
+  errors: state.errors,
   tests: state.tests,
   selected: state.selected
 });
@@ -86,4 +88,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { createSubject }
-)(SubjectForm);
+)(withRouter(SubjectForm));

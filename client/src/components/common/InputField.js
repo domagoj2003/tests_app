@@ -23,6 +23,7 @@ const InputField = ({
         info={info}
         errors={errors}
         onChange={onChange}
+        style={{ backgroundColor: `mintcream` }}
         className={classnames("form-control form-control-lg", {
           "is-invalid": errors
         })}

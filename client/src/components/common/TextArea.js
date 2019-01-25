@@ -12,6 +12,7 @@ function TextArea({ name, placeholder, value, onChange, errors, info }) {
         onChange={onChange}
         errors={errors}
         info={info}
+        style={{ backgroundColor: `mintcream` }}
         className={classnames("form-control form-control-lg", {
           "is-invalid": errors
         })}

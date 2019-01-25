@@ -43,7 +43,12 @@ class Navbar extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+      <nav
+        className="navbar navbar-expand-sm navbar-dark mb-4"
+        style={{
+          backgroundColor: `dodgerblue`
+        }}
+      >
         <div className="container">
           <Link to="/" className="navbar-brand">
             Učionica

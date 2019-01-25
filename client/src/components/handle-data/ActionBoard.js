@@ -11,7 +11,7 @@ class ActionBoard extends Component {
       <div>
         <div className="row">
           <div className="col-md-1">
-            <Link to="/ploca" className="btn btn-light">
+            <Link to="/ploca-poglavlja" className="btn btn-light">
               Povratak
             </Link>
           </div>

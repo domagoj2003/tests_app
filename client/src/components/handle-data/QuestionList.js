@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteQuestion } from "../../actions/testsActions";
+import { deleteQuestion, clearSection } from "../../actions/testsActions";
 import Button from "../common/Button";
 import CollapseField from "../common/CollapseField";
 import {
@@ -22,9 +22,18 @@ class QuestionList extends Component {
   }
 
   onClickDelete = e => {
-    const { selectedGrade, selectedSubject } = this.props.selected;
+    const {
+      selectedGrade,
+      selectedSubject,
+      selectedSection
+    } = this.props.selected;
     const questionId = e.target.id;
-    this.props.deleteQuestion(selectedGrade, selectedSubject, questionId);
+    this.props.deleteQuestion(
+      selectedGrade,
+      selectedSubject,
+      questionId,
+      selectedSection
+    );
   };
 
   onClickSelect = e => {
@@ -109,5 +118,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deleteQuestion, editQuestion, getQuestions, selectQuestion }
+  { deleteQuestion, editQuestion, getQuestions, selectQuestion, clearSection }
 )(QuestionList);

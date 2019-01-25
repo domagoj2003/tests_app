@@ -32,7 +32,15 @@ class Grades extends Component {
         item={grade.name}
         to={`/predmeti`}
         onClick={this.onClick}
-        style={{ fontSize: `7rem`, textAlign: `center` }}
+        cardStyle={{
+          width: `14rem`,
+          height: `14rem`,
+          backgroundColor: `mintcream`
+        }}
+        textStyle={{
+          fontSize: `7rem`,
+          textAlign: `center`
+        }}
       />
     ));
 

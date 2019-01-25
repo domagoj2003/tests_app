@@ -24,9 +24,6 @@ const Header = ({ profile }) => {
             <p className="lead text-center">
               {profile.school}, {profile.city}
             </p>
-            <Link to="uredi-profil">
-              <button className="btn btn-warning-btn-lg">Uredi Profil</button>
-            </Link>
           </div>
         </div>
       </div>

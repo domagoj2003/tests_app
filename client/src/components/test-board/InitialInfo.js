@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Button from "../common/Button";
 import Path from "./Path";
 import PropTypes from "prop-types";
-import { dataDisplay } from "../../validation/display-data";
 import {
   setTotalQuestions,
   newQuestion,

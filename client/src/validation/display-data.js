@@ -42,10 +42,14 @@ export const dataDisplay = data => {
     .replace(regExp, " "));
 };
 
-export const sortNumbers = results => {
-  const newRes = results.map(result =>
-    Math.round((result.points / result.maxPoints) * 100)
-  );
-  const sortNumber = (a, b) => b - a;
-  return newRes.sort(sortNumber);
+export const results_sort_desc = (result1, result2) => {
+  if (result1.percentage > result2.percentage) return -1;
+  if (result1.percentage < result2.percentage) return 1;
+  return 0;
+};
+
+export const date_sort_desc = (result1, result2) => {
+  if (result1.date > result2.date) return -1;
+  if (result1.date < result2.date) return 1;
+  return 0;
 };

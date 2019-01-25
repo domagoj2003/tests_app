@@ -23,23 +23,25 @@ router.post(
             grade: req.body.grade,
             subject: req.body.subject,
             section: req.body.section,
-            maxPoints: req.body.maxPoints,
-            points: req.body.points
+            maxpoints: req.body.maxPoints,
+            points: req.body.points,
+            percentage: req.body.percentage
           };
-          new Results({ results: newResult }).then(result =>
-            res.json(result.resultlist)
-          );
+          new Results({ resultlist: new Array(newResult) })
+            .save()
+            .then(result => res.json(result.resultlist));
         } else {
           const newResult = {
             user: req.user.id,
             grade: req.body.grade,
             subject: req.body.subject,
             section: req.body.section,
-            maxPoints: req.body.maxPoints,
-            points: req.body.points
+            maxpoints: req.body.maxPoints,
+            points: req.body.points,
+            percentage: req.body.percentage
           };
-          result.unshift(newResult);
-          result.save().then(result => res.json(result));
+          result.resultlist.unshift(newResult);
+          result.save().then(result => res.json(result.resultlist));
         }
       })
       .catch(err => res.json(err));
@@ -50,9 +52,27 @@ router.post(
 // desc:    Get result
 // access:  PUBLIC
 router.get("/", (req, res) => {
-  Results.find()
-    .populate("results.user", "name")
-    .then(result => res.json(result));
+  Results.findOne()
+    .populate("resultlist.user", "name")
+    .then(result => res.json(result.resultlist));
 });
+
+// @route:  DELETE api/results/:result_id
+// desc:    delete result
+// access:  Private
+
+router.delete(
+  "/:result_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Results.findOne().then(results => {
+      const removeIndex = results.resultlist
+        .map(item => item._id.toString())
+        .indexOf(req.params.result_id);
+      results.resultlist.splice(removeIndex, 1);
+      results.save().then(results => res.json(results));
+    });
+  }
+);
 
 module.exports = router;

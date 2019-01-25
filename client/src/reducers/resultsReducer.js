@@ -1,8 +1,8 @@
-import { GET_RESULTS, LOADING_RESULTS } from "../actions/types";
+import { GET_RESULTS, LOADING_RESULTS, DELETE_RESULT } from "../actions/types";
 
 const initialState = {
   loading: false,
-  results: []
+  resultList: []
 };
 
 export default function(state = initialState, action) {
@@ -10,7 +10,13 @@ export default function(state = initialState, action) {
     case GET_RESULTS:
       return {
         ...state,
-        results: action.payload,
+        resultList: action.payload,
+        loading: false
+      };
+    case DELETE_RESULT:
+      return {
+        ...state,
+        resultList: state.resultList.filter(res => res._id !== action.payload),
         loading: false
       };
     case LOADING_RESULTS:

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Spinner from "../common/Spinner";
 import { getCurrentProfile } from "../../actions/profileActions";
+import { getResults, deleteResult } from "../../actions/resultsActions";
 import Header from "./Header";
 import Bio from "./Bio";
 import { resultsDisplay } from "../../validation/display-data";
@@ -11,15 +13,21 @@ import Results from "./Results";
 class Board extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
+    this.props.getResults();
   }
-
+  onClickDelete = e => {
+    console.log(e.target.id);
+    const resultId = e.target.id;
+    this.props.deleteResult(resultId);
+  };
   render() {
-    const { profile, loading } = this.props.profile;
+    const { profile } = this.props.profile;
+    const { resultList, loading } = this.props.results;
     let content;
     if (loading || profile === null) {
       content = (
-        <div className="contaner">
-          <p className="lead">Loading...</p>
+        <div className="row justify-content-md-center">
+          <Spinner />
         </div>
       );
     } else {
@@ -29,8 +37,9 @@ class Board extends Component {
             <Header profile={profile} />
             <Bio profile={profile} />
             <Results
-              results={resultsDisplay(profile.results)}
-              user={profile.user}
+              onClick={this.onClickDelete}
+              results={resultsDisplay(resultList)}
+              profile={profile}
             />
           </div>
         );
@@ -51,7 +60,7 @@ class Board extends Component {
     }
     return (
       <div>
-        <div className="lead">{content}</div>
+        <div>{content}</div>
       </div>
     );
   }
@@ -63,10 +72,11 @@ Board.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  results: state.results
 });
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, getResults, deleteResult }
 )(Board);

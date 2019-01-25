@@ -1,39 +1,26 @@
-import React from "react";
-import isEmpty from "../../validation/is-empty";
-import Moment from "react-moment";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-const Results = ({ results, user }) => {
-  return (
-    <div className="row">
-      <div className="col-md-12">
-        <div className="card card-body bg-light mb-3">
-          <h3 className="text-center text-info">Rezultati</h3>
+import ResultList from "./ResultList";
 
-          {isEmpty(results) ? (
-            <span>{user.name} još nema rezultate...</span>
-          ) : (
-            results.map(result => (
-              <div
-                className="row"
-                key={result._id}
-                style={{ marginTop: `1em` }}
-              >
-                <div className="col-2">{result.grade}. razred</div>
-                <div className="col-2">{result.subject}</div>
-                <div className="col">{result.section}</div>
-                <div className="col-1">
-                  {Math.round((result.points / result.maxpoints) * 100)} %
-                </div>
-                <div className="col">
-                  <Moment format="DD.MM.YYYY - HH:mm">{result.date}</Moment>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+class Results extends Component {
+  render() {
+    const { results, profile, onClick } = this.props;
+    let content;
+    const data = results.filter(res => res.user._id === profile.user._id);
+    if (data.length > 0) {
+      content = <ResultList results={data} onClick={onClick} />;
+    } else {
+      content = <p className="lead text-center">Još nemaš rezultata.</p>;
+    }
+
+    return (
+      <div>
+        <h3 className="text-center text-info">Rezultati</h3>
+        {content}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Results;

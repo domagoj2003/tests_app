@@ -3,7 +3,8 @@ import {
   SELECTED_SUBJECT,
   SELECTED_SECTION,
   CLEAR_SELECTION,
-  GET_QUESTION
+  GET_QUESTION,
+  CLEAR_SECTION
 } from "../actions/types";
 
 const initialState = {
@@ -34,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         selectedQuestion: action.payload
+      };
+    case CLEAR_SECTION:
+      return {
+        ...state,
+        selectedSection: initialState.selectedSection
       };
     case CLEAR_SELECTION:
       return initialState;

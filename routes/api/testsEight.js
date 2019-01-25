@@ -6,6 +6,7 @@ const passport = require("passport");
 const Osmi = require("../../models/Osmi");
 const User = require("../../models/Users");
 const validateQuestionsInput = require("../../validation/questions");
+const validateSubjectInput = require("../../validation/subjects");
 
 // OSMI RAZRED
 
@@ -60,19 +61,25 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Osmi.findOne({ subject: req.body.subject }).then(subject => {
-      if (subject) {
-        res.json({ message: "Predmet je kreiran" });
-      } else {
-        const newSubject = new Osmi({
-          subject: req.body.subject
-        });
-        newSubject
-          .save()
-          .then(subject => res.json(subject.subject))
-          .catch(err => res.json(err));
-      }
-    });
+    const { errors, isValid } = validateSubjectInput(req.body);
+    if (!isValid) {
+      res.status(400).json(errors);
+    } else {
+      Osmi.findOne({ subject: req.body.subject }).then(subject => {
+        if (subject) {
+          errors.subject = "Predmet već postoji.";
+          res.status(400).json(errors);
+        } else {
+          const newSubject = new Osmi({
+            subject: req.body.subject
+          });
+          newSubject
+            .save()
+            .then(subject => res.json(subject.subject))
+            .catch(err => res.json(errors));
+        }
+      });
+    }
   }
 );
 //checked

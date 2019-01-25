@@ -67,6 +67,19 @@ router.get(
   }
 );
 
+// @route:  GET api/profile/:user_id
+// desc:    retrieve user profile
+// access:  PUBLIC
+
+router.get("/:user_id", (req, res) => {
+  Profile.findOne({ user: req.params.user_id })
+    .populate("user", "name")
+    .then(profile => {
+      res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 // @route:  POST api/profile/result
 // desc:    Save test results in profile array
 // access:  PRIVATE

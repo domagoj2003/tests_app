@@ -6,6 +6,7 @@ const passport = require("passport");
 const Peti = require("../../models/Peti");
 const User = require("../../models/Users");
 const validateQuestionsInput = require("../../validation/questions");
+const validateSubjectInput = require("../../validation/subjects");
 
 // PETI RAZRED
 
@@ -53,26 +54,32 @@ router.get(
 );
 //checked
 // @route:  POST api/tests/peti
-// desc:    Create a subject for sixth grade
+// desc:    Create a subject for fifth grade
 // access:  Private /Admin
 
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Peti.findOne({ subject: req.body.subject }).then(subject => {
-      if (subject) {
-        res.json({ message: "Predmet je kreiran" });
-      } else {
-        const newSubject = new Peti({
-          subject: req.body.subject
-        });
-        newSubject
-          .save()
-          .then(subject => res.json(subject.subject))
-          .catch(err => res.json(err));
-      }
-    });
+    const { errors, isValid } = validateSubjectInput(req.body);
+    if (!isValid) {
+      res.status(400).json(errors);
+    } else {
+      Peti.findOne({ subject: req.body.subject }).then(subject => {
+        if (subject) {
+          errors.subject = "Predmet već postoji.";
+          res.status(400).json(errors);
+        } else {
+          const newSubject = new Peti({
+            subject: req.body.subject
+          });
+          newSubject
+            .save()
+            .then(subject => res.json(subject.subject))
+            .catch(err => res.json(errors));
+        }
+      });
+    }
   }
 );
 //checked

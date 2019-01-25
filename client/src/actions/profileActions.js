@@ -1,4 +1,9 @@
-import { GET_PROFILE, GET_ERRORS, PROFILE_LOADING, ADD_RESULT } from "./types";
+import {
+  GET_PROFILE,
+  GET_ERRORS,
+  PROFILE_LOADING,
+  GET_PROFILES
+} from "./types";
 import axios from "axios";
 
 // Create Profile
@@ -20,7 +25,7 @@ export const profileLoading = () => dispatch => {
   });
 };
 
-// Retrieve current profile
+// Get current profile
 export const getCurrentProfile = () => dispatch => {
   dispatch(profileLoading());
   axios
@@ -37,6 +42,17 @@ export const getCurrentProfile = () => dispatch => {
         payload: {}
       })
     );
+};
+
+// Get user profiles
+export const getUserProfiles = userId => dispatch => {
+  dispatch(profileLoading());
+  axios.get(`/api/profile/${userId}`).then(res =>
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data
+    })
+  );
 };
 
 export const saveResult = (newResult, history) => dispatch => {

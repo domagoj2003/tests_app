@@ -31,7 +31,7 @@ class Sections extends Component {
     if (loading || sections === null) {
       content = <div>Loading...</div>;
     } else if (sections.length < 1) {
-      content = <div>Za odabrani predmet nema ispita</div>;
+      content = <p className="lead">Za odabrani predmet nema ispita</p>;
     } else {
       content = sections.map((section, index) => (
         <ItemCard
@@ -40,7 +40,15 @@ class Sections extends Component {
           id={section}
           onClick={this.onClick}
           to={`/test`}
-          style={{ fontSize: `2rem`, textAlign: `center` }}
+          textStyle={{
+            fontSize: `1.5rem`,
+            textAlign: `center`
+          }}
+          cardStyle={{
+            width: `50%`,
+            height: `2.5rem`,
+            backgroundColor: `mintcream`
+          }}
         />
       ));
     }

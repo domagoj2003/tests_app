@@ -23,7 +23,7 @@ class HandleSubjects extends Component {
     if ((loading, subjects === null)) {
       content = <Spinner />;
     } else if (subjects.length < 1) {
-      content = <h1>Za odabrani razred nema sadržaja</h1>;
+      content = <p className="lead">Za odabrani razred nema sadržaja</p>;
     } else {
       content = subjects.map((subject, index) => (
         <ItemCard
@@ -32,7 +32,15 @@ class HandleSubjects extends Component {
           item={dataDisplay(subject)}
           onClick={this.onClick}
           to={"/ploca-poglavlja"}
-          style={{ fontSize: `2rem`, textAlign: `center` }}
+          textStyle={{
+            fontSize: `1.5rem`,
+            textAlign: `center`
+          }}
+          cardStyle={{
+            width: `50%`,
+            height: `2.5rem`,
+            backgroundColor: `powderblue`
+          }}
         />
       ));
     }

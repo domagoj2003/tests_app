@@ -27,6 +27,7 @@ import ActionBoard from "./components/handle-data/ActionBoard";
 import QuestionForm from "./components/handle-data/QuestionForm";
 import SubjectForm from "./components/handle-data/SubjectForm";
 import TestBoard from "./components/test-board/TestBoard";
+import Profiles from "./components/profiles/Profiles";
 
 import "./App.css";
 
@@ -62,6 +63,7 @@ class App extends Component {
               <Route exact path="/prijava" component={Login} />
               <Route exact path="/profil" component={Board} />
               <Route exact path="/rezultati" component={Results} />
+              <Route exact path="/profili" component={Profiles} />
               <Switch>
                 <PrivateRoute exact path="/razred" component={Grades} />
               </Switch>
